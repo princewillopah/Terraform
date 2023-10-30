@@ -54,5 +54,11 @@ terraform.tfvars
 **/terraform.tfstate.*
 **/terraform.tfvars
 
+# GCP Service keys 
+durable-bond-key.json
+*key.json
+*/*key.json
+**/*key.json
+
 # Ignore binary files
 *.bin
