@@ -38,6 +38,8 @@
 # }
 
 #Create a VPC network: When creating a new Google Cloud Project, a default VPC network is created. This network works fine, but since it’s recommended to create separate networks for isolation, let’s do that:
+
+
 resource "google_compute_network" "vpc_network" {
   name = "my-network"
 }
@@ -93,6 +95,19 @@ resource "google_compute_instance" "server1" {
     access_config {
       nat_ip = google_compute_address.static_ip.address
     }
+  }
+}
+
+# Execute Ansible provisioning after creating the instance
+resource "null_resource" "ansible_provisioner_to_configure_server1" {
+  triggers = {
+    instance_id = google_compute_instance.server1.id
+  }
+
+  provisioner "local-exec" {
+    working_dir = "/home/princewillopah/DevOps-World/Ansible/PROJECTS/TF-and-Ansible"
+    command = "ansible-playbook -i ${google_compute_instance.server1.network_interface.0.access_config.0.nat_ip}, --private-key ${var.ssh-private-key} --user princewillopah playbooks/example.yml"
+
   }
 }
 
