@@ -9,7 +9,7 @@
 #     length = var.length
 # }
 
-# //////////List/////////
+# //////////List/////////////
 
 
 resource "local_file" "pet" {
