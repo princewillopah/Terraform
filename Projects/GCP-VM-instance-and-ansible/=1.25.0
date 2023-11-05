@@ -1,0 +1,8 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: boto3 in /home/princewillopah/.local/lib/python3.10/site-packages (1.28.78)
+Requirement already satisfied: botocore in /home/princewillopah/.local/lib/python3.10/site-packages (1.31.78)
+Requirement already satisfied: s3transfer<0.8.0,>=0.7.0 in /home/princewillopah/.local/lib/python3.10/site-packages (from boto3) (0.7.0)
+Requirement already satisfied: jmespath<2.0.0,>=0.7.1 in /usr/lib/python3/dist-packages (from boto3) (0.10.0)
+Requirement already satisfied: urllib3<2.1,>=1.25.4 in /usr/lib/python3/dist-packages (from botocore) (1.26.5)
+Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in /home/princewillopah/.local/lib/python3.10/site-packages (from botocore) (2.8.2)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil<3.0.0,>=2.1->botocore) (1.16.0)
