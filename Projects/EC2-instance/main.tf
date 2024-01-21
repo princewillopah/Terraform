@@ -105,7 +105,7 @@ resource "aws_security_group" "ec2-security-group" {
 }
 
 
-resource "aws_instance" "EC2-instance" {
+resource "aws_instance" "Jenkin-Master-EC2-Instance" {
   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
   instance_type = "t3.micro"
 
@@ -126,7 +126,57 @@ associate_public_ip_address    = true # to make sure public ip is display
   }
 
  tags = {
-    Name = "${var.environment}"
+    Name = "${var.environment1}"
+  }
+}
+
+resource "aws_instance" "Jenkin-Slave1-EC2-Instance" {
+  ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type = "t3.micro"
+
+  #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
+  #  instance_type = "t4g.small"
+
+  # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+  key_name               = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
+
+
+associate_public_ip_address    = true # to make sure public ip is display
+# key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
+
+ root_block_device {
+    volume_size = 9
+    volume_type = "gp2"
+  }
+
+ tags = {
+    Name = "${var.environment2}"
+  }
+}
+
+resource "aws_instance" "Ansible-EC2-Instance" {
+  ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type = "t3.micro"
+
+  #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
+  #  instance_type = "t4g.small"
+
+  # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+  key_name               = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
+
+
+associate_public_ip_address    = true # to make sure public ip is display
+# key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
+
+ root_block_device {
+    volume_size = 9
+    volume_type = "gp2"
+  }
+
+ tags = {
+    Name = "${var.environment3}"
   }
 }
 

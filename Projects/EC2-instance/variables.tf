@@ -16,7 +16,21 @@ variable "avail_zone" {
  description = "Availability Zones"
  default     = "eu-north-1"
 }
+
 variable "environment" {
-  description = "Ansible-Server"
+  description = "Jenkins Projects"
+ default     = "Jenkins-Projects"
+}
+
+variable "environment1" {
+  description = "Jenkin Master"
+ default     = "Jenkin Master"
+}
+variable "environment2" {
+  description = "Jenkin Slave1"
+ default     = "Jenkin-Slave1"
+}
+variable "environment3" {
+  description = "Ansible Server"
  default     = "Ansible-Server"
 }

@@ -62,7 +62,10 @@ resource "aws_iam_role_policy_attachment" "EKSServicePolicy" {
   role       = "${aws_iam_role.eks-role.name}"
 }
 
-
+resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.master.name
+}
 
 #============================================================
 # NODE_GROUP#
