@@ -46,14 +46,20 @@ coverage/
 *.tfstate.*
 terraform.tfvars
 
-# Exclude binary files downloaded during `terraform init`
-*.bin
+# Ignore Terraform state files
+**/*.tfstate
+**/*.tfstate.*
 
 # Ignore specific inner Terraform directories and their contents
 **/terraform/
 **/terraform.tfstate
 **/terraform.tfstate.*
 **/terraform.tfvars
+
+# Exclude binary files downloaded during `terraform init`
+*.bin
+
+
 
 # GCP Service keys 
 durable-bond-key.json
