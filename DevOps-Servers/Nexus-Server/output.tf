@@ -1,5 +1,5 @@
-output "cd--cd-ec2-instance_public_ip" {
-  value = aws_instance.CI-CD-EC2-Instance-2.public_ip
+output "instance_public_ip" {
+  value = aws_instance.Nexus-Server.public_ip
 }
 
 # output "jenkins_slave1_public_ip" {

@@ -1,5 +1,5 @@
-output "jenkin-master-instance_public_ip" {
-  value = aws_instance.Jenkins-Master-Instance.public_ip
+output "instance_public_ip" {
+  value = aws_instance.Nexus-Server.public_ip
 }
 
 # output "jenkins_slave1_public_ip" {

@@ -18,8 +18,8 @@ variable "avail_zone" {
 }
 
 variable "environment" {
-  description = "Jenkins-Argo-CICD-Project"
- default     = "Jenkins-Argo-CICD-Project"
+  description = "Nexus-Server"
+ default     = "Nexus-Server"
 }
 
 # variable "environment1" {

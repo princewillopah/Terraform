@@ -12,7 +12,7 @@ resource "tls_private_key" "rsa_4096" {
 # define a key name
 variable "key_name" {
   description = "Name of the SSH key pair"
-  default = "temporal-jenkins-master-sshkey"
+  default = "temporal-ekc-bootstrap-server-sshkey"
 }
 
 // Define the home directory variable
@@ -112,9 +112,9 @@ resource "aws_security_group" "ec2-security-group" {
 }
 
 
-resource "aws_instance" "Jenkins-Master-Instance" {
-  ami           = "ami-0014ce3e52359afbd" # for eu-north-1
-  instance_type = "t3.large"
+resource "aws_instance" "EKS-Bootstrap-Server" {
+  ami           = "ami-0914547665e6a707c" # for eu-north-1
+  instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
   #  instance_type = "t4g.small"

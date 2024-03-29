@@ -53,42 +53,26 @@ resource "local_file" "private_key" {
 
 
 resource "aws_security_group" "ec2-security-group" {
-  
+   name        = "Jenkins-pipeline-SG"
+  description = "Allow TLS inbound traffic"
   # description = "Allow TLS inbound traffic"
 #   vpc_id      = aws_vpc.myapp-vpc.id    #so the servers in the vpc can be associated weith the secuerity group
 
 		#so ingress block handles the incoming requests/traffics to access the resources in the VPC such as accessing the ec2 instance from your CLI 0r accessing the nginx on port 8080 on port 22. in these cases we are sending traffic/requests to the VPC to access the EC2 instance or the nginx in it
   #rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 22 for cli access to the EC2 instance"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    # cidr_blocks      = [var.my-ip] only that stated ip will be able to access the ip
-    cidr_blocks      = ["0.0.0.0/0"]  #for all ips to be able to access the ec2
-  }
-#rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
-    from_port        = 8080
-    to_port          = 8080
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
-  }
-#rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 8081 for access of the nexus server in the ec2 instance from a browser "
-    from_port        = 8081
-    to_port          = 8081
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
-  }
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  ingress [
+     for port in [22, 80, 443, 8080, 9000, 3000] : {
+          description      = "inbound rules"
+          from_port        = port
+          to_port          = port
+          protocol         = "tcp"
+          cidr_blocks      = ["0.0.0.0/0"]
+          ipv6_cidr_blocks = []
+          prefix_list_ids  = []
+          security_groups  = []
+          self             = false
+    }
+  ]
 
 # the egress block handles rules for our resource within the vpc making requests or sending trafic outside the vpc to the internet. examples of such traffic is like when you want to install docker or other package in your EC2 instance, the binaries needs to be fectched or downloaded from the internet. another example, when we run an nginx image, the images has to be fetched from the dockerhub. these are requests made by the ec2 from your vpc to the internet  
   egress {
@@ -108,9 +92,6 @@ resource "aws_security_group" "ec2-security-group" {
 resource "aws_instance" "Jenkin-Master-EC2-Instance" {
   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
   instance_type = "t3.micro"
-
-  #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
-  #  instance_type = "t4g.small"
 
   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
   key_name               = aws_key_pair.key_pair.key_name
@@ -134,9 +115,6 @@ resource "aws_instance" "Jenkin-Slave1-EC2-Instance" {
   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
   instance_type = "t3.micro"
 
-  #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
-  #  instance_type = "t4g.small"
-
   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
   key_name               = aws_key_pair.key_pair.key_name
   vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
@@ -158,9 +136,6 @@ associate_public_ip_address    = true # to make sure public ip is display
 resource "aws_instance" "Ansible-EC2-Instance" {
   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
   instance_type = "t3.micro"
-
-  #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
-  #  instance_type = "t4g.small"
 
   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
   key_name               = aws_key_pair.key_pair.key_name
