@@ -72,3 +72,5 @@ durable-bond-key.json
 
 # make sure provide.tf is not commited and pushed to git since it contain sensitive info
 Azure/Basic/provider.tf
+
+Azure/*/providers.tf
