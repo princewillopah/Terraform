@@ -71,18 +71,18 @@ durable-bond-key.json
 *.bin
 
 # make sure provide.tf is not commited and pushed to git since it contain sensitive info
-Azure/Basic/provider.tf
+# Azure/Basic/provider.tf
 
-Azure/*/providers.tf
-Azure/_2Storage_Account/providers.tf.
-Azure/Others/providers.tf.
-Azure/_1Resource_Group/providers.tf. 
-Azure/_2Storage_Account/providers.tf.  
-Azure/_3VMs/providers.tf.  
-Azure/_4VNETs/providers.tf. 
-Azure/_5Azure_Functions/providers.tf.  
-Azure/_6Webapps/providers.tf.  
-Azure/_7SQL/providers.tf.
+# Azure/*/providers.tf
+# Azure/_2Storage_Account/providers.tf.
+# Azure/Others/providers.tf.
+# Azure/_1Resource_Group/providers.tf. 
+# Azure/_2Storage_Account/providers.tf.  
+# Azure/_3VMs/providers.tf.  
+# Azure/_4VNETs/providers.tf. 
+# Azure/_5Azure_Functions/providers.tf.  
+# Azure/_6Webapps/providers.tf.  
+# Azure/_7SQL/providers.tf.
 
-**/Azure/*/providers.tf
-**/providers.tf
+# **/Azure/*/providers.tf
+# **/providers.tf

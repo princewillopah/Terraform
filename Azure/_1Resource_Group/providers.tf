@@ -12,8 +12,8 @@ provider "azurerm" {
   subscription_id = "xxx"
   tenant_id = "xxx"
   client_id = "xxx"
-  client_secret = "xxxx"
+  client_secret = "xxx"
   features {
-
+    
   }
 }
