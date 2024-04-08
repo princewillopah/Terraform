@@ -1,0 +1,902 @@
+Script started on 2024-03-29 14:48:44+00:00 [TERM="xterm-256color" TTY="/dev/pts/11" COLUMNS="138" LINES="20"]
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ [7mterraform show[27m
+[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cterraform show
+[A
+[?2004l# aws_instance.Jenkins-Master-Instance:
+resource "aws_instance" "Jenkins-Master-Instance" {
+    ami                                  = "ami-0014ce3e52359afbd"
+    arn                                  = "arn:aws:ec2:eu-north-1:065073657325:instance/i-05337f3d403b7e87d"
+    associate_public_ip_address          = true
+    availability_zone                    = "eu-north-1b"
+    cpu_core_count                       = 1
+    cpu_threads_per_core                 = 2
+    disable_api_stop                     = false
+    disable_api_termination              = false
+    ebs_optimized                        = false
+    get_password_data                    = false
+    hibernation                          = false
+    id                                   = "i-05337f3d403b7e87d"
+    instance_initiated_shutdown_behavior = "stop"
+    instance_state                       = "running"
+    instance_type                        = "t3.large"
+    ipv6_address_count                   = 0
+    ipv6_addresses                       = []
+    key_name                             = "temporal-jenkins-master-sshkey"
+    monitoring                           = false
+    placement_partition_number           = 0
+    primary_network_interface_id         = "eni-0b9bf54d73cf9f0ad"
+    private_dns                          = "ip-172-31-45-163.eu-north-1.compute.internal"
+    private_ip                           = "172.31.45.163"
+    public_dns                           = "ec2-51-20-188-53.eu-north-1.compute.amazonaws.com"
+    public_ip                            = "51.20.188.53"
+    secondary_private_ips                = []
+    security_groups                      = [
+        "terraform-20240329142101321600000001",
+    ]
+    source_dest_check                    = true
+    subnet_id                            = "subnet-0c4d500b6f61c3e85"
+    tags                                 = {
+        "Name" = "Jenkins-Master-Instance"
+    }
+    tags_all                             = {
+        "Name" = "Jenkins-Master-Instance"
+    }
+    tenancy                              = "default"
+    user_data                            = "36ed5b3f19042a2cfecb12fff9c0b8378e4d3ddf"
+    user_data_replace_on_change          = false
+    vpc_security_group_ids               = [
+        "sg-0be33092d64f9122b",
+    ]
+
+    capacity_reservation_specification {
+        capacity_reservation_preference = "open"
+    }
+
+    cpu_options {
+        core_count       = 1
+        threads_per_core = 2
+    }
+
+    credit_specification {
+        cpu_credits = "unlimited"
+    }
+
+    enclave_options {
+        enabled = false
+    }
+
+    maintenance_options {
+        auto_recovery = "default"
+    }
+
+    metadata_options {
+        http_endpoint               = "enabled"
+        http_protocol_ipv6          = "disabled"
+        http_put_response_hop_limit = 1
+        http_tokens                 = "optional"
+        instance_metadata_tags      = "disabled"
+    }
+
+    private_dns_name_options {
+        enable_resource_name_dns_a_record    = false
+        enable_resource_name_dns_aaaa_record = false
+        hostname_type                        = "ip-name"
+    }
+
+    root_block_device {
+        delete_on_termination = true
+        device_name           = "/dev/sda1"
+        encrypted             = false
+        iops                  = 120
+        throughput            = 0
+        volume_id             = "vol-0bdf2d5a6f5d7e077"
+        volume_size           = 40
+        volume_type           = "gp2"
+    }
+}
+
+# aws_key_pair.key_pair:
+resource "aws_key_pair" "key_pair" {
+    arn         = "arn:aws:ec2:eu-north-1:065073657325:key-pair/temporal-jenkins-master-sshkey"
+    fingerprint = "9c:27:bc:19:20:c7:7a:cf:8a:94:a4:3f:05:0c:b9:4b"
+    id          = "temporal-jenkins-master-sshkey"
+    key_name    = "temporal-jenkins-master-sshkey"
+    key_pair_id = "key-0490d86364ad86872"
+    key_type    = "rsa"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjPQxISFioDiN3cPnnxetBd633RAozWU531wuwak5PJt+ewh6ZVRG5dzRpRGRpeSDo1sfWDmWXm9GaFbVS3R1e52O4fuFiTQ5XTA+EeTHUWEnd3KSYyui6Nn9xqKOx1MvjauBtEqW7tsi7a4udViAoUcvqHsEgPRqoOAbwMnxMoVtv7h4srcy1jojWXP0T1Az5P/cCbYK3mVV25QgGC2VchEnZcixx7cvSHJ38UScd1WqT+ioWpFetch6vERNT3GQNhTqI+4wzMu2anlS873Hj+dC5+yYL+rWyf7QTUP3V6HxUWaJ8dxihLD2fPC2+FacdVcl/rQO+e8yH9aB2AW0TCnE1iQV/YbBDxhfQZsc01+z+48VyOSNhXrhU9FJUJ0+7IDtfz2JNxq/lrUuJdcjgbsxPHXCbntH3XES3VDUFgQ61wdEY3YlEIp51066X7ef4O++OXpMbNthD4tnyNBAhcQKGUyO0X+b2hjRK1Kxv8aZt08JXJ4VQ5fNrmzL1igUItEdfIaOnJBD6xxz6mlgpyNJp0IltK5AmHcWCle00l3MOEa+sRmZjc9JzfxBRAxRW1cn5sr6uKz/h28uT/+TBVnMXnHKBgpni6KZvRthPNK+v3HdYSyRO7JYL0Wpy45hZdrJwoH5UVenceatKF57vcnnW2mE6iL+2UhcE4tW/GQ=="
+    tags        = {
+        "Name" = "Jenkins-Master-Instance-key_pair"
+    }
+    tags_all    = {
+        "Name" = "Jenkins-Master-Instance-key_pair"
+    }
+}
+
+# aws_security_group.ec2-security-group:
+resource "aws_security_group" "ec2-security-group" {
+    arn                    = "arn:aws:ec2:eu-north-1:065073657325:security-group/sg-0be33092d64f9122b"
+    description            = "Managed by Terraform"
+    egress                 = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "rules to allow access of the resources inside the vpc to the internet"
+            from_port        = 0
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "-1"
+            security_groups  = []
+            self             = false
+            to_port          = 0
+        },
+    ]
+    id                     = "sg-0be33092d64f9122b"
+    ingress                = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = ""
+            from_port        = 3000
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 5000
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "Open port 22 for cli access to the EC2 instance"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 500
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
+            from_port        = 8000
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 10000
+        },
+    ]
+    name                   = "terraform-20240329142101321600000001"
+    name_prefix            = "terraform-"
+    owner_id               = "065073657325"
+    revoke_rules_on_delete = false
+    tags                   = {
+        "Name" = "Jenkins-Master-Instance--security-group"
+    }
+    tags_all               = {
+        "Name" = "Jenkins-Master-Instance--security-group"
+    }
+    vpc_id                 = "vpc-0530f3fb0879feeec"
+}
+
+# local_file.private_key:
+resource "local_file" "private_key" {
+    content              = (sensitive value)
+    content_base64sha256 = "pw/iABk4jeqZDiQECpcjnqNpd76hHD/Az65MQfp2094="
+    content_base64sha512 = "T5lvzpPsqHWmXShTXRZEzulpM+FH1rCrCaJXrU2Cn9NMWPCcXzdAWLmbsxnL0tktHms5LvVYM763fBXB8MkhEA=="
+    content_md5          = "ef8b6ea8c17ea4f643e666368ec6732a"
+    content_sha1         = "f9a3c0d13df93a8814de857a8e8d9d336deeb312"
+    content_sha256       = "a70fe20019388dea990e24040a97239ea36977bea11c3fc0cfae4c41fa76d3de"
+    content_sha512       = "4f996fce93eca875a65d28535d1644cee96933e147d6b0ab09a257ad4d829fd34c58f09c5f374058b99bb319cbd2d92d1e6b392ef55833beb77c15c1f0c92110"
+    directory_permission = "0777"
+    file_permission      = "0777"
+    filename             = "/home/funmiriri/.ssh/temporal-jenkins-master-sshkey"
+    id                   = "f9a3c0d13df93a8814de857a8e8d9d336deeb312"
+}
+
+# tls_private_key.rsa_4096:
+resource "tls_private_key" "rsa_4096" {
+    algorithm                     = "RSA"
+    ecdsa_curve                   = "P224"
+    id                            = "7dd1d2fe7292f6cff902f7c8cc3aed8597cec25b"
+    private_key_openssh           = (sensitive value)
+    private_key_pem               = (sensitive value)
+    private_key_pem_pkcs8         = (sensitive value)
+    public_key_fingerprint_md5    = "6b:03:4c:90:01:78:7f:18:00:de:f2:61:ff:63:e7:82"
+    public_key_fingerprint_sha256 = "SHA256:vYEaNGwTZUmxCknh2RE7PIQHp4T32HiiSRDJ3jOt/gw"
+    public_key_openssh            = <<-EOT
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjPQxISFioDiN3cPnnxetBd633RAozWU531wuwak5PJt+ewh6ZVRG5dzRpRGRpeSDo1sfWDmWXm9GaFbVS3R1e52O4fuFiTQ5XTA+EeTHUWEnd3KSYyui6Nn9xqKOx1MvjauBtEqW7tsi7a4udViAoUcvqHsEgPRqoOAbwMnxMoVtv7h4srcy1jojWXP0T1Az5P/cCbYK3mVV25QgGC2VchEnZcixx7cvSHJ38UScd1WqT+ioWpFetch6vERNT3GQNhTqI+4wzMu2anlS873Hj+dC5+yYL+rWyf7QTUP3V6HxUWaJ8dxihLD2fPC2+FacdVcl/rQO+e8yH9aB2AW0TCnE1iQV/YbBDxhfQZsc01+z+48VyOSNhXrhU9FJUJ0+7IDtfz2JNxq/lrUuJdcjgbsxPHXCbntH3XES3VDUFgQ61wdEY3YlEIp51066X7ef4O++OXpMbNthD4tnyNBAhcQKGUyO0X+b2hjRK1Kxv8aZt08JXJ4VQ5fNrmzL1igUItEdfIaOnJBD6xxz6mlgpyNJp0IltK5AmHcWCle00l3MOEa+sRmZjc9JzfxBRAxRW1cn5sr6uKz/h28uT/+TBVnMXnHKBgpni6KZvRthPNK+v3HdYSyRO7JYL0Wpy45hZdrJwoH5UVenceatKF57vcnnW2mE6iL+2UhcE4tW/GQ==
+    EOT
+    public_key_pem                = <<-EOT
+        -----BEGIN PUBLIC KEY-----
+        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA4z0MSEhYqA4jd3D558Xr
+        QXet90QKM1lOd9cLsGpOTybfnsIemVURuXc0aURkaXkg6NbH1g5ll5vRmhW1Ut0d
+        XudjuH7hYk0OV0wPhHkx1FhJ3dykmMroujZ/caijsdTL42rgbRKlu7bIu2uLnVYg
+        KFHL6h7BID0aqDgG8DJ8TKFbb+4eLK3MtY6I1lz9E9QM+T/3Am2Ct5lVduUIBgtl
+        XIRJ2XIsce3L0hyd/FEnHdVqk/oqFqRXrXIerxETU9xkDYU6iPuMMzLtmp5UvO9x
+        4/nQufsmC/q1sn+0E1D91eh8VFmifHcYoSw9nzwtvhWnHVXJf60DvnvMh/WgdgFt
+        EwpxNYkFf2GwQ8YX0GbHNNfs/uPFcjkjYV64VPRSVCdPuyA7X89iTcav5a1LiXXI
+        4G7MTx1wm57R91xEt1Q1BYEOtcHRGN2JRCKeddOul+3n+Dvvjl6TGzbYQ+LZ8jQQ
+        IXEChlMjtF/m9oY0StSsb/GmbdPCVyeFUOXza5sy9YoFCLRHXyGjpyQQ+scc+ppY
+        KcjSadCJbSuQJh3FgpXtNJdzDhGvrEZmY3PSc38QUQMUVtXJ+bK+ris/4dvLk//k
+        wVZzF5xygYKZ4uimb0bYTzSvr9x3WEskTuyWC9FqcuOYWXaycKB+VFXp3HmrShee
+        73J51tphOoi/tlIXBOLVvxkCAwEAAQ==
+        -----END PUBLIC KEY-----
+    EOT
+    rsa_bits                      = 4096
+}
+
+
+Outputs:
+
+IP_Address = "51.20.188.53"
+OUTPUTS = <<-EOT
+    ---------------------------------
+    OUTPUTS
+    -----------------------------
+EOT
+connection_to_server = " ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53"
+jenkin-master-instance_public_ip = "51.20.188.53"
+ssh_key = "/home/funmiriri/.ssh/temporal-jenkins-master-sshkey"
+user = "ubuntu"
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ [7mssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey u[27m[7mb[27m[7muntu@51.20.188.53[27m[A]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53
+[?2004lThe authenticity of host '51.20.188.53 (51.20.188.53)' can't be established.
+ED25519 key fingerprint is SHA256:2uzZoScZbpN69eLhpSo3xUm06cH1ABP3oRSTC50ZkhY.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '51.20.188.53' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-1017-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 29 14:51:54 UTC 2024
+
+  System load:  0.00244140625     Processes:                111
+  Usage of /:   9.9% of 38.58GB   Users logged in:          0
+  Memory usage: 51%               IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                IPv4 address for ens5:    172.31.45.163
+
+Expanded Security Maintenance for Applications is not enabled.
+
+106 updates can be applied immediately.
+65 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ [K]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ docker
+[?2004l
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Common Commands:
+  run         Create and run a new container from an image
+  exec        Execute a command in a running container
+  ps          List containers
+  build       Build an image from a Dockerfile
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  images      List images
+  login       Log in to a registry
+  logout      Log out from a registry
+  search      Search Docker Hub for images
+  version     Show the Docker version information
+  info        Display system-wide information
+
+Management Commands:
+  builder     Manage builds
+  container   Manage containers
+  context     Manage contexts
+  image       Manage images
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  plugin      Manage plugins
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Swarm Commands:
+  swarm       Manage Swarm
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  wait        Block until one or more containers stop, then print their exit codes
+
+Global Options:
+      --config string      Location of client config files (default "/home/ubuntu/.docker")
+  -c, --context string     Name of the context to use to connect to the daemon (overrides DOCKER_HOST env var and default context
+                           set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket to connect to
+  -l, --log-level string   Set the logging level ("debug", "info", "warn", "error", "fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default "/home/ubuntu/.docker/ca.pem")
+      --tlscert string     Path to TLS certificate file (default "/home/ubuntu/.docker/cert.pem")
+      --tlskey string      Path to TLS key file (default "/home/ubuntu/.docker/key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Run 'docker COMMAND --help' for more information on a command.
+
+For more help on how to use Docker, head to https://docs.docker.com/go/guides/
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ cl
+[?2004lCommand 'cl' not found, but can be installed with:
+sudo apt install cl-launch
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ java -version
+[?2004lopenjdk version "17.0.10" 2024-01-16
+OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.10+7 (build 17.0.10+7, mixed mode, sharing)
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ clear
+[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ docker --versip[Kon 
+[?2004lDocker version 24.0.5, build 24.0.5-0ubuntu1~22.04.1
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ java -version
+[?2004lopenjdk version "17.0.10" 2024-01-16
+OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.10+7 (build 17.0.10+7, mixed mode, sharing)
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ [K]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ [K]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ trivy -v
+[?2004lVersion: 0.50.1
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ clear
+[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ [K]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ exit
+[?2004llogout
+Connection to 51.20.188.53 closed.
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53[A]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ terraform show[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[?2004l# aws_instance.Jenkins-Master-Instance:
+resource "aws_instance" "Jenkins-Master-Instance" {
+    ami                                  = "ami-0014ce3e52359afbd"
+    arn                                  = "arn:aws:ec2:eu-north-1:065073657325:instance/i-05337f3d403b7e87d"
+    associate_public_ip_address          = true
+    availability_zone                    = "eu-north-1b"
+    cpu_core_count                       = 1
+    cpu_threads_per_core                 = 2
+    disable_api_stop                     = false
+    disable_api_termination              = false
+    ebs_optimized                        = false
+    get_password_data                    = false
+    hibernation                          = false
+    id                                   = "i-05337f3d403b7e87d"
+    instance_initiated_shutdown_behavior = "stop"
+    instance_state                       = "running"
+    instance_type                        = "t3.large"
+    ipv6_address_count                   = 0
+    ipv6_addresses                       = []
+    key_name                             = "temporal-jenkins-master-sshkey"
+    monitoring                           = false
+    placement_partition_number           = 0
+    primary_network_interface_id         = "eni-0b9bf54d73cf9f0ad"
+    private_dns                          = "ip-172-31-45-163.eu-north-1.compute.internal"
+    private_ip                           = "172.31.45.163"
+    public_dns                           = "ec2-51-20-188-53.eu-north-1.compute.amazonaws.com"
+    public_ip                            = "51.20.188.53"
+    secondary_private_ips                = []
+    security_groups                      = [
+        "terraform-20240329142101321600000001",
+    ]
+    source_dest_check                    = true
+    subnet_id                            = "subnet-0c4d500b6f61c3e85"
+    tags                                 = {
+        "Name" = "Jenkins-Master-Instance"
+    }
+    tags_all                             = {
+        "Name" = "Jenkins-Master-Instance"
+    }
+    tenancy                              = "default"
+    user_data                            = "36ed5b3f19042a2cfecb12fff9c0b8378e4d3ddf"
+    user_data_replace_on_change          = false
+    vpc_security_group_ids               = [
+        "sg-0be33092d64f9122b",
+    ]
+
+    capacity_reservation_specification {
+        capacity_reservation_preference = "open"
+    }
+
+    cpu_options {
+        core_count       = 1
+        threads_per_core = 2
+    }
+
+    credit_specification {
+        cpu_credits = "unlimited"
+    }
+
+    enclave_options {
+        enabled = false
+    }
+
+    maintenance_options {
+        auto_recovery = "default"
+    }
+
+    metadata_options {
+        http_endpoint               = "enabled"
+        http_protocol_ipv6          = "disabled"
+        http_put_response_hop_limit = 1
+        http_tokens                 = "optional"
+        instance_metadata_tags      = "disabled"
+    }
+
+    private_dns_name_options {
+        enable_resource_name_dns_a_record    = false
+        enable_resource_name_dns_aaaa_record = false
+        hostname_type                        = "ip-name"
+    }
+
+    root_block_device {
+        delete_on_termination = true
+        device_name           = "/dev/sda1"
+        encrypted             = false
+        iops                  = 120
+        throughput            = 0
+        volume_id             = "vol-0bdf2d5a6f5d7e077"
+        volume_size           = 40
+        volume_type           = "gp2"
+    }
+}
+
+# aws_key_pair.key_pair:
+resource "aws_key_pair" "key_pair" {
+    arn         = "arn:aws:ec2:eu-north-1:065073657325:key-pair/temporal-jenkins-master-sshkey"
+    fingerprint = "9c:27:bc:19:20:c7:7a:cf:8a:94:a4:3f:05:0c:b9:4b"
+    id          = "temporal-jenkins-master-sshkey"
+    key_name    = "temporal-jenkins-master-sshkey"
+    key_pair_id = "key-0490d86364ad86872"
+    key_type    = "rsa"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjPQxISFioDiN3cPnnxetBd633RAozWU531wuwak5PJt+ewh6ZVRG5dzRpRGRpeSDo1sfWDmWXm9GaFbVS3R1e52O4fuFiTQ5XTA+EeTHUWEnd3KSYyui6Nn9xqKOx1MvjauBtEqW7tsi7a4udViAoUcvqHsEgPRqoOAbwMnxMoVtv7h4srcy1jojWXP0T1Az5P/cCbYK3mVV25QgGC2VchEnZcixx7cvSHJ38UScd1WqT+ioWpFetch6vERNT3GQNhTqI+4wzMu2anlS873Hj+dC5+yYL+rWyf7QTUP3V6HxUWaJ8dxihLD2fPC2+FacdVcl/rQO+e8yH9aB2AW0TCnE1iQV/YbBDxhfQZsc01+z+48VyOSNhXrhU9FJUJ0+7IDtfz2JNxq/lrUuJdcjgbsxPHXCbntH3XES3VDUFgQ61wdEY3YlEIp51066X7ef4O++OXpMbNthD4tnyNBAhcQKGUyO0X+b2hjRK1Kxv8aZt08JXJ4VQ5fNrmzL1igUItEdfIaOnJBD6xxz6mlgpyNJp0IltK5AmHcWCle00l3MOEa+sRmZjc9JzfxBRAxRW1cn5sr6uKz/h28uT/+TBVnMXnHKBgpni6KZvRthPNK+v3HdYSyRO7JYL0Wpy45hZdrJwoH5UVenceatKF57vcnnW2mE6iL+2UhcE4tW/GQ=="
+    tags        = {
+        "Name" = "Jenkins-Master-Instance-key_pair"
+    }
+    tags_all    = {
+        "Name" = "Jenkins-Master-Instance-key_pair"
+    }
+}
+
+# aws_security_group.ec2-security-group:
+resource "aws_security_group" "ec2-security-group" {
+    arn                    = "arn:aws:ec2:eu-north-1:065073657325:security-group/sg-0be33092d64f9122b"
+    description            = "Managed by Terraform"
+    egress                 = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "rules to allow access of the resources inside the vpc to the internet"
+            from_port        = 0
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "-1"
+            security_groups  = []
+            self             = false
+            to_port          = 0
+        },
+    ]
+    id                     = "sg-0be33092d64f9122b"
+    ingress                = [
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = ""
+            from_port        = 3000
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 5000
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "Open port 22 for cli access to the EC2 instance"
+            from_port        = 22
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 500
+        },
+        {
+            cidr_blocks      = [
+                "0.0.0.0/0",
+            ]
+            description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
+            from_port        = 8000
+            ipv6_cidr_blocks = []
+            prefix_list_ids  = []
+            protocol         = "tcp"
+            security_groups  = []
+            self             = false
+            to_port          = 10000
+        },
+    ]
+    name                   = "terraform-20240329142101321600000001"
+    name_prefix            = "terraform-"
+    owner_id               = "065073657325"
+    revoke_rules_on_delete = false
+    tags                   = {
+        "Name" = "Jenkins-Master-Instance--security-group"
+    }
+    tags_all               = {
+        "Name" = "Jenkins-Master-Instance--security-group"
+    }
+    vpc_id                 = "vpc-0530f3fb0879feeec"
+}
+
+# local_file.private_key:
+resource "local_file" "private_key" {
+    content              = (sensitive value)
+    content_base64sha256 = "pw/iABk4jeqZDiQECpcjnqNpd76hHD/Az65MQfp2094="
+    content_base64sha512 = "T5lvzpPsqHWmXShTXRZEzulpM+FH1rCrCaJXrU2Cn9NMWPCcXzdAWLmbsxnL0tktHms5LvVYM763fBXB8MkhEA=="
+    content_md5          = "ef8b6ea8c17ea4f643e666368ec6732a"
+    content_sha1         = "f9a3c0d13df93a8814de857a8e8d9d336deeb312"
+    content_sha256       = "a70fe20019388dea990e24040a97239ea36977bea11c3fc0cfae4c41fa76d3de"
+    content_sha512       = "4f996fce93eca875a65d28535d1644cee96933e147d6b0ab09a257ad4d829fd34c58f09c5f374058b99bb319cbd2d92d1e6b392ef55833beb77c15c1f0c92110"
+    directory_permission = "0777"
+    file_permission      = "0777"
+    filename             = "/home/funmiriri/.ssh/temporal-jenkins-master-sshkey"
+    id                   = "f9a3c0d13df93a8814de857a8e8d9d336deeb312"
+}
+
+# tls_private_key.rsa_4096:
+resource "tls_private_key" "rsa_4096" {
+    algorithm                     = "RSA"
+    ecdsa_curve                   = "P224"
+    id                            = "7dd1d2fe7292f6cff902f7c8cc3aed8597cec25b"
+    private_key_openssh           = (sensitive value)
+    private_key_pem               = (sensitive value)
+    private_key_pem_pkcs8         = (sensitive value)
+    public_key_fingerprint_md5    = "6b:03:4c:90:01:78:7f:18:00:de:f2:61:ff:63:e7:82"
+    public_key_fingerprint_sha256 = "SHA256:vYEaNGwTZUmxCknh2RE7PIQHp4T32HiiSRDJ3jOt/gw"
+    public_key_openssh            = <<-EOT
+        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDjPQxISFioDiN3cPnnxetBd633RAozWU531wuwak5PJt+ewh6ZVRG5dzRpRGRpeSDo1sfWDmWXm9GaFbVS3R1e52O4fuFiTQ5XTA+EeTHUWEnd3KSYyui6Nn9xqKOx1MvjauBtEqW7tsi7a4udViAoUcvqHsEgPRqoOAbwMnxMoVtv7h4srcy1jojWXP0T1Az5P/cCbYK3mVV25QgGC2VchEnZcixx7cvSHJ38UScd1WqT+ioWpFetch6vERNT3GQNhTqI+4wzMu2anlS873Hj+dC5+yYL+rWyf7QTUP3V6HxUWaJ8dxihLD2fPC2+FacdVcl/rQO+e8yH9aB2AW0TCnE1iQV/YbBDxhfQZsc01+z+48VyOSNhXrhU9FJUJ0+7IDtfz2JNxq/lrUuJdcjgbsxPHXCbntH3XES3VDUFgQ61wdEY3YlEIp51066X7ef4O++OXpMbNthD4tnyNBAhcQKGUyO0X+b2hjRK1Kxv8aZt08JXJ4VQ5fNrmzL1igUItEdfIaOnJBD6xxz6mlgpyNJp0IltK5AmHcWCle00l3MOEa+sRmZjc9JzfxBRAxRW1cn5sr6uKz/h28uT/+TBVnMXnHKBgpni6KZvRthPNK+v3HdYSyRO7JYL0Wpy45hZdrJwoH5UVenceatKF57vcnnW2mE6iL+2UhcE4tW/GQ==
+    EOT
+    public_key_pem                = <<-EOT
+        -----BEGIN PUBLIC KEY-----
+        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA4z0MSEhYqA4jd3D558Xr
+        QXet90QKM1lOd9cLsGpOTybfnsIemVURuXc0aURkaXkg6NbH1g5ll5vRmhW1Ut0d
+        XudjuH7hYk0OV0wPhHkx1FhJ3dykmMroujZ/caijsdTL42rgbRKlu7bIu2uLnVYg
+        KFHL6h7BID0aqDgG8DJ8TKFbb+4eLK3MtY6I1lz9E9QM+T/3Am2Ct5lVduUIBgtl
+        XIRJ2XIsce3L0hyd/FEnHdVqk/oqFqRXrXIerxETU9xkDYU6iPuMMzLtmp5UvO9x
+        4/nQufsmC/q1sn+0E1D91eh8VFmifHcYoSw9nzwtvhWnHVXJf60DvnvMh/WgdgFt
+        EwpxNYkFf2GwQ8YX0GbHNNfs/uPFcjkjYV64VPRSVCdPuyA7X89iTcav5a1LiXXI
+        4G7MTx1wm57R91xEt1Q1BYEOtcHRGN2JRCKeddOul+3n+Dvvjl6TGzbYQ+LZ8jQQ
+        IXEChlMjtF/m9oY0StSsb/GmbdPCVyeFUOXza5sy9YoFCLRHXyGjpyQQ+scc+ppY
+        KcjSadCJbSuQJh3FgpXtNJdzDhGvrEZmY3PSc38QUQMUVtXJ+bK+ris/4dvLk//k
+        wVZzF5xygYKZ4uimb0bYTzSvr9x3WEskTuyWC9FqcuOYWXaycKB+VFXp3HmrShee
+        73J51tphOoi/tlIXBOLVvxkCAwEAAQ==
+        -----END PUBLIC KEY-----
+    EOT
+    rsa_bits                      = 4096
+}
+
+
+Outputs:
+
+IP_Address = "51.20.188.53"
+OUTPUTS = <<-EOT
+    ---------------------------------
+    OUTPUTS
+    -----------------------------
+EOT
+connection_to_server = " ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53"
+jenkin-master-instance_public_ip = "51.20.188.53"
+ssh_key = "/home/funmiriri/.ssh/temporal-jenkins-master-sshkey"
+user = "ubuntu"
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ terraform showssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53
+[?2004lWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-1017-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 29 15:08:23 UTC 2024
+
+  System load:  0.009765625       Processes:                110
+  Usage of /:   9.9% of 38.58GB   Users logged in:          0
+  Memory usage: 51%               IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                IPv4 address for ens5:    172.31.45.163
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+106 updates can be applied immediately.
+65 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Fri Mar 29 14:51:56 2024 from 34.147.209.77
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ cl
+[?2004lCommand 'cl' not found, but can be installed with:
+sudo apt install cl-launch
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ clear
+[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ ls
+[?2004l[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ cat[K[K[Ksudo vi [7m~/.bashrc[27m~/.bashrc
+[?2004l[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;26r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[26;1H"/home/ubuntu/.bashrc" 117L, 3771B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1H[34m# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)[m[2;75H[K[3;1H[34m# for examples[m[3;15H[K[5;1H[34m# If not running interactively, don't do anything[m
+[38;5;130mcase[m [35m$-[m [38;5;130min[m
+    *i*[38;5;130m)[m [38;5;130m;;[m[8;7H*[38;5;130m)[m [38;5;130mreturn;;
+esac[m
+
+[34m# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options[m
+[36mHISTCONTROL[m=ignoreboth
+
+[34m# append to the history file, don't overwrite it[m
+shopt [35m-s[m histappend
+
+[34m# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)[m
+[36mHISTSIZE[m=[31m1000[m
+[36mHISTFILESIZE[m=[31m2000[m
+
+[34m# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.[m
+shopt [35m-s[m checkwinsize[26;122H1,1[11CTop[1;1H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?12$p[27m[23m[29m[m[H[2J[?25l[1;1H[96m# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything[m
+[93mcase[m [38;5;81m$-[m [93min[m
+    *i*[93m)[m [93m;;[m[8;7H*[93m)[m [93mreturn;;
+esac[m
+
+[96m# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options[m
+[1m[96mHISTCONTROL[m=ignoreboth
+
+[96m# append to the history file, don't overwrite it[m
+shopt [38;5;224m-s[m histappend
+
+[96m# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)[m
+[1m[96mHISTSIZE[m=[95m1000[m
+[1m[96mHISTFILESIZE[m=[95m2000[m
+
+[96m# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.[m
+shopt [38;5;224m-s[m checkwinsize[26;122H1,1[11CTop"/home/ubuntu/.bashrc" 117L, 3771B[1;1H[?25h[?25l[26;112H~@k[1;1H[26;112H   [2;1H[26;122H2[2;1H[?25h[?25l[26;112H~@k[2;1H[26;112H   [3;1H[26;122H3[3;1H[?25h[?25l[26;112H~@k[3;1H[26;112H   [4;1H[26;122H4,0-1[4;1H[?25h[?25l[26;112H~@k[4;1H[26;112H   [5;1H[26;122H5,1  [5;1H[?25h[?25l[26;112H~@k[5;1H[26;112H   [6;1H[26;122H6[6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [7;1H[26;122H7[7;1H[?25h[?25l[26;112H~@k[7;1H[26;112H   [8;1H[26;122H8[8;1H[?25h[?25l[26;112H~@k[8;1H[26;112H   [9;1H[26;122H9[9;1H[?25h[?25l[26;122H10,0-1[10;1H[?25h[?25l[26;112H~@k[10;1H[26;112H   [11;1H[26;123H1,1  [11;1H[?25h[?25l[26;123H2[12;1H[?25h[?25l[26;112H~@k[12;1H[26;112H   [13;1H[26;123H3[13;1H[?25h[?25l[26;112H~@k[13;1H[26;112H   [14;1H[26;123H4,0-1[14;1H[?25h[?25l[26;112H~@k[14;1H[26;112H   [15;1H[26;123H5,1  [15;1H[?25h[?25l[26;112H~@k[15;1H[26;112H   [16;1H[26;123H6[16;1H[?25h[?25l[26;123H7,0-1[17;1H[?25h[?25l[26;112H~@k[17;1H[26;112H   [18;1H[26;123H8,1  [18;1H[?25h[?25l[26;112H~@k[18;1H[26;112H   [19;1H[26;123H9[19;1H[?25h[?25l[26;112H~@k[19;1H[26;112H   [20;1H[26;122H20[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# If set, the pattern "**" used in a pathname expansion context will[m[26;1H[K[26;122H21,0-1[9C1%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# match all files and zero or more directories and subdirectories.[m[26;122H[K[26;122H22,1[11C2%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m#shopt -s globstar[m[26;122H[K[26;122H23,1[11C3%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H24,1[11C4%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# make less more friendly for non-text input files, see lesspipe(1)[m[26;122H[K[26;122H25,0-1[9C5%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93m[[m [93m-x[m /usr/bin/lesspipe [93m][m && [93meval[m [93m"[m[38;5;81m$(SHELL[m[93m=[m[38;5;224m/bin/sh lesspipe[m[38;5;81m)[m[93m"[m[26;122H[K[26;122H26,1[11C6%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H27,1[11C7%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# set variable identifying the chroot you work in (used in the prompt below)[m[26;122H[K[26;122H28,1[11C8%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mif [[m [93m-z[m [93m"[m[38;5;81m${debian_chroot[m[93m:-[m[38;5;81m}[m[93m"[m [93m][m [93m&&[m [93m[[m [93m-r[m /etc/debian_chroot [93m];[m [93mthen[m[26;122H[K[26;122H29,0-1[9C9%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[1m[96mdebian_chroot[m=[38;5;81m$([m[93mcat[m[38;5;224m /etc/debian_chroot[m[38;5;81m)[m[26;122H[K[26;122H30,1[10C10%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[20;1H[93m[46m[[22C][m[25;1H[93mfi[m[26;122H[K[26;122H31,1[10C11%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[19;1H[93m[[22C][m[26;122H[K[26;122H32,0-1[8C13%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# set a fancy prompt (non-color, unless we know we "want" color)[m[26;122H[K[26;122H33,1[10C14%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mcase[m [93m"[m[38;5;81m$TERM[m[93m"[m [93min[m[26;122H[K[26;122H34,1[10C15%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5Hxterm-color|*-256color[93m)[m [1m[96mcolor_prompt[m=yes[93m;;[m[26;122H[K[26;122H35,1[10C16%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mesac[m[26;122H[K[26;122H36,1[10C17%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H37,0-1[8C18%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# uncomment for a colored prompt, if the terminal has the capability; turned[m[26;122H[K[26;122H38,1[10C19%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[96m# off by default to not distract the user: the focus in a terminal window[m[26;122H[K[26;122H39,1[10C20%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# should be on the output of commands, not on the prompt[m[26;122H[K[26;122H40,1[10C21%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m#force_color_prompt=yes[m[26;122H[K[26;122H41,1[10C22%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[26;122H[K[26;122H42,0-1[8C23%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[93mif [[m [93m-n[m [93m"[m[38;5;81m$force_color_prompt[m[93m"[m [93m];[m [93mthen[m[26;122H[K[26;122H43,1[10C25%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;5H[93mif [[m [93m-x[m /usr/bin/tput [93m][m [93m&&[m [93mtput[m setaf [95m1[m [93m>&[m/dev/null[93m;[m [93mthen[m[26;122H[K[26;122H44,1[10C26%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;9H[96m# We have color support; assume it's compliant with Ecma-48[m[26;122H[K[26;122H45,1[10C27%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;9H[96m# (ISO/IEC-6429). (Lack of such support is extremely rare, and such[m[26;122H[K[26;122H46,1[10C28%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;9H[96m# a case would tend to support setf rather than setaf.)[m[26;122H[K[26;122H47,0-1[8C29%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;9H[1m[96mcolor_prompt[m=yes[26;122H[K[26;122H48,1[10C30%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;5H[93melse[m[26;122H[K[26;122H49,1[10C31%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;8H[1;25r[25;1H
+[1;26r[25;9H[1m[96mcolor_prompt[m=[26;122H[K[26;122H50,1-8[8C32%[20;8H[?25h[?25l[1;25r[25;1H
+[1;26r[25;5H[93mfi[m[26;122H[K[26;122H51,1-8[8C33%[20;8H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[93mfi[m[26;122H[K[26;122H52,1-8[8C34%[20;8H[?25h[?25l[1;25r[25;1H
+[1;26r[26;122H[K[26;122H53,1-8[8C35%[20;8H[?25h[?25l[26;112H~@k[20;8H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mif [[m [93m"[m[38;5;81m$color_prompt[m[93m"[m [93m=[m [95myes[m [93m];[m [93mthen[m[26;122H[K[26;122H54,1[10C36%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;8H[1;25r[25;1H
+[1;26r[25;5H[38;5;81mPS1[m[93m='[m[95m${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ [m[93m'[m[26;122H[K[26;122H55,1-8[8C38%[20;8H[?25h[?25l[26;112H~@k[20;8H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93melse[m[26;122H[K[26;122H56,1[10C39%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[38;5;81mPS1[m[93m='[m[95m${debian_chroot:+($debian_chroot)}\u@\h:\w\$ [m[93m'[m[26;122H[K[26;122H57,1[10C40%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mfi[m[26;122H[K[26;122H58,0-1[8C41%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93munset[m[1m[96m color_prompt force_color_prompt[m[26;122H[K[26;122H59,1[10C42%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H60,1[10C43%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# If this is an xterm set the title to user@host:dir[m[26;122H[K[26;122H61,1[10C44%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mcase[m [93m"[m[38;5;81m$TERM[m[93m"[m [93min[m[26;122H[K[26;122H62,1[10C45%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1Hxterm*|rxvt*[93m)[m[26;122H[K[26;122H63,1[10C46%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[38;5;81mPS1[m[93m="[m[95m\[[m[38;5;224m\e[m[95m]0;[m[38;5;81m${debian_chroot[m[93m:+[m([38;5;81m$debian_chroot[m)[38;5;81m}[m[95m\u@\h: \w[m[38;5;224m\a[m[95m\][m[38;5;81m$PS1[m[93m"[m[26;122H[K[26;122H64,1[10C47%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93m;;[m[26;122H[K[26;122H65,0-1[8C48%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H*[93m)[m[26;122H[K[26;122H66,1[10C50%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93m;;[m[26;122H[K[26;122H67,1[10C51%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mesac[m[26;122H[K[26;122H68,1[10C52%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H69,1[10C53%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# enable color support of ls and also add handy aliases[m[26;122H[K[26;122H70,1[10C54%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mif [[m [93m-x[m /usr/bin/dircolors [93m];[m [93mthen[m[26;122H[K[26;122H71,1[10C55%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93mtest[m [93m-r[m ~/.dircolors [93m&&[m [93meval[m [93m"[m[38;5;81m$([m[38;5;224mdircolors -b ~/.dircolors[m[38;5;81m)[m[93m"[m [93m||[m [93meval[m [93m"[m[38;5;81m$([m[38;5;224mdircolors -b[m[38;5;81m)[m[93m"[m[26;122H[K[26;122H72,1[10C56%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93malias [m[1m[96mls[m[93m='[m[95mls --color=auto[m[93m'[m[26;122H[K[26;122H73,1[10C57%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[96m#alias dir='dir --color=auto'[m[26;122H[K[26;122H74,0-1[8C58%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[96m#alias vdir='vdir --color=auto'[m[26;122H[K[26;122H75,1[10C59%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H76,1[10C60%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93malias [m[1m[96mgrep[m[93m='[m[95mgrep --color=auto[m[93m'[m[26;122H[K[26;122H77,1[10C61%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93malias [m[1m[96mfgrep[m[93m='[m[95mfgrep --color=auto[m[93m'[m[26;122H[K[26;122H78,1[10C63%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;5H[93malias [m[1m[96megrep[m[93m='[m[95megrep --color=auto[m[93m'[m[26;122H[K[26;122H79,1[10C64%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mfi[m[26;122H[K[26;122H80,1[10C65%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[26;122H[K[26;122H81,0-1[8C66%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[96m# colored GCC warnings and errors[m[26;122H[K[26;122H82,1[10C67%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'[m[26;122H[K[26;122H83,1[10C68%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H84,1[10C69%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# some more ls aliases[m[26;122H[K[26;122H85,1[10C70%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93malias [m[1m[96mll[m[93m='[m[95mls -alF[m[93m'[m[26;122H[K[26;122H86,0-1[8C71%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[93malias [m[1m[96mla[m[93m='[m[95mls -A[m[93m'[m[26;122H[K[26;122H87,1[10C72%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[93malias[m [1m[96ml[m=[93m'[m[95mls -CF[m[93m'[m[26;122H[K[26;122H88,1[10C73%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[26;122H[K[26;122H89,0-1[8C75%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# Add an "alert" alias for long running commands.  Use like so:[m[26;122H[K[26;122H90,1[10C76%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m#   sleep 10; alert[m[26;122H[K[26;122H91,1[10C77%[20;1H[?25h[?25l[1;25r[1;1H[2M[1;26r[24;1H[93malias [m[1m[96malert[m[93m='[m[95mnotify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e [m[93m'[m[38;5;224m\'[m[93m'[m[95ms/^\s*[0-9]\+\s*//;;[25;1Hs/[;&|]\s*alert$//[m[93m'[m[38;5;224m\'[m[93m'[m[95m)"[m[93m'[m[26;122H[K[26;122H92,1[10C78%[19;1H[?25h[?25l[26;123H3[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H94,0-1[8C79%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# Alias definitions.[m[26;122H[K[26;122H95,1[10C80%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# You may want to put all your additions into a separate file like[m[26;122H[K[26;122H96,1[10C81%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [19;1H[1;25r[1;1H[2M[1;26r[24;1H[96m# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.[m[26;122H[K[26;122H97,1[10C83%[19;1H[?25h[?25l[26;112H~@k[19;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H98,0-1[8C84%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mif [[m [93m-f[m ~/.bash_aliases [93m];[m [93mthen[m[26;122H[K[26;122H99,1[10C86%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;4H[93m . [m~/.bash_aliases[26;122H[K[26;122H100,1[9C87%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mfi[m[26;122H[K[26;122H101,1[9C88%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[26;122H[K[26;122H102,1[9C89%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# enable programmable completion features (you don't need to enable[m[26;122H[K[26;122H103,0-1[7C90%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[96m# this, if it's already enabled in /etc/bash.bashrc and /etc/profile[m[26;122H[K[26;122H104,1[9C91%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[96m# sources /etc/bash.bashrc).[m[26;122H[K[26;122H105,1[9C92%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;1H[93mif ![m shopt [38;5;224m-oq[m posix[93m;[m [93mthen[m[26;122H[K[26;122H106,1[9C93%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;3H[93mif [[m [93m-f[m /usr/share/bash-completion/bash_completion [93m];[m [93mthen[m[26;122H[K[26;122H107,0-1[7C94%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;4H[93m . [m/usr/share/bash-completion/bash_completion[26;122H[K[26;122H108,1[9C95%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;3H[93melif[m [93m[[m [93m-f[m /etc/bash_completion [93m];[m [93mthen[m[26;122H[K[26;122H109,1[9C96%[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [20;1H[1;25r[25;1H
+[1;26r[25;4H[93m . [m/etc/bash_completion[26;122H[K[26;122H110,1[9C97%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;3H[93mfi[m[26;122H[K[26;122H111,1[9C98%[20;1H[?25h[?25l[1;25r[25;1H
+[1;26r[25;1H[93mfi[m[26;122H[K[26;122H112,1[9CBot[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [21;1H[26;124H3[21;1H[?25h[?25l[26;112H~@k[21;1H[26;112H   [22;1H[26;124H4[22;1H[?25h[?25l[26;112H~@k[22;1H[26;112H   [23;1H[26;124H5[23;1H[?25h[?25l[26;112H~@k[23;1H[26;112H   [24;1H[26;124H6[24;1H[?25h[?25l[26;112H~@k[24;1H[26;112H   [25;1H[26;124H7[25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [25;1H[?25h[?25l[26;112H~@k[25;1H[26;112H   [24;1H[26;124H6[24;1H[?25h[?25l[26;112H~@k[24;1H[26;112H   [23;1H[26;124H5[23;1H[?25h[?25l[26;112H~@k[23;1H[26;112H   [22;1H[26;124H4[22;1H[?25h[?25l[26;112H~@k[22;1H[26;112H   [21;1H[26;124H3[21;1H[?25h[?25l[26;112H~@k[21;1H[26;112H   [20;1H[26;124H2[20;1H[?25h[?25l[26;112H~@k[20;1H[26;112H   [19;1H[26;124H1[19;1H[?25h[?25l[26;112H~@k[19;1H[26;112H   [18;1H[26;124H0[18;1H[?25h[?25l[26;112H~@k[18;1H[26;112H   [17;1H[26;123H09[17;1H[?25h[?25l[26;112H~@k[17;1H[26;112H   [16;1H[26;124H8[16;1H[?25h[?25l[26;112H~@k[16;1H[26;112H   [15;1H[26;124H7,0-1[15;1H[?25h[?25l[26;112H~@k[15;1H[26;112H   [14;1H[26;124H6,1  [14;1H[?25h[?25l[26;112H~@k[14;1H[26;112H   [13;1H[26;124H5[13;1H[?25h[?25l[26;112H~@k[13;1H[26;112H   [12;1H[26;124H4[12;1H[?25h[?25l[26;124H3,0-1[11;1H[?25h[?25l[26;112H~@k[11;1H[26;112H   [10;1H[26;124H2,1  [10;1H[?25h[?25l[26;112H~@k[10;1H[26;112H   [9;1H[26;124H1[9;1H[?25h[?25l[26;112H~@k[9;1H[26;112H   [8;1H[26;124H0[8;1H[?25h[?25l[26;112H~@k[8;1H[26;112H   [7;1H[26;122H99,1 [7;1H[?25h[?25l[26;112H~@k[7;1H[26;112H   [6;1H[26;123H8,0-1[6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [6;1H[1;25r[1;1H[2L[1;26r[1;1H[93malias [m[1m[96mla[m[93m='[m[95mls -A[m[93m'
+alias[m [1m[96ml[m=[93m'[m[95mls -CF[m[93m'[m[26;122H[K[26;122H97,1[10C97%[6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [8;1H[26;123H8,0-1[8;1H[?25h[?25l[26;112H~@k[8;1H[26;112H   [9;1H[26;123H9,1  [9;1H[?25h[?25l[26;112H~@k[9;1H[26;112H   [10;1H[26;122H100,1[10;1H[?25h[?25l[26;112H~@k[10;1H[26;112H   [11;1H[26;124H1[11;1H[?25h[?25l[26;112H~@k[11;1H[26;112H   [12;1H[26;124H2[12;1H[?25h[?25l[26;112H~@k[12;1H[26;112H   [13;1H[26;124H3,0-1[13;1H[?25h[?25l[26;112H~@k[13;1H[26;112H   [12;1H[26;124H2,1  [12;1H[?25h[?25l[26;112H~@k[12;1H[26;112H   [11;1H[26;124H1[11;1H[?25h[?25l[26;112H~@k[11;1H[26;112H   [10;1H[26;124H0[10;1H[?25h[?25l[26;112H~@k[10;1H[26;112H   [9;1H[26;122H99,1 [9;1H[?25h[?25l[26;112H~@k[9;1H[26;112H   [8;1H[26;123H8,0-1[8;1H[?25h[?25l[26;112H~@k[8;1H[26;112H   [6;1H[26;123H7,1  [6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [6;1H[1;25r[1;1H[L[1;26r[1;1H[93malias [m[1m[96mll[m[93m='[m[95mls -alF[m[93m'[m[26;122H[K[26;122H96,1[10C96%[6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [6;1H[1;25r[1;1H[L[1;26r[1;1H[96m# some more ls aliases[m[26;122H[K[26;122H95,1[10C95%[6;1H[?25h[?25l[26;112H~@k[6;1H[26;112H   [6;1H[1;25r[1;1H[L[1;26r[26;122H[K[26;122H94,0-1[8C94%[6;1H[?25h[?25l[26;1H[1m-- INSERT --[m[26;122H[K[26;122H94,1[10C94%[26;1H[K[6;1H[93malias [m[1m[96mcl[m[93m="[m[95mclear[m[93m"[m[26;122H94,16[9C94%[6;16H[?25h[?25l[26;112H~@k[6;16H[26;112H   [6;16H[?25h[?25l[26;112H^[[6;16H[26;112H  [6;16H[26;112H^[[6;16H[26;112H  [6;16H[?25h[?25l[26;112H:[6;16H[26;112H[K[26;1H:[?25hwq![?25l[?2004l[>4;m".bashrc" 117L, 3787B written[23;2t[23;1t
+[?1004l[?2004l[?1l>[?25h[>4;m[?1049l[23;0;0t[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ sudo reboot
+[?2004lConnection to 51.20.188.53 closed by remote host.
+Connection to 51.20.188.53 closed.
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53
+[?2004lWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-1017-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 29 15:12:09 UTC 2024
+
+  System load:  0.53955078125     Processes:                111
+  Usage of /:   9.8% of 38.58GB   Users logged in:          0
+  Memory usage: 23%               IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                IPv4 address for ens5:    172.31.45.163
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+106 updates can be applied immediately.
+65 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Fri Mar 29 15:08:24 2024 from 34.147.209.77
+[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ cl
+[?2004l[H[2J[3J[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ sudo vi etc/hostname[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kcl[K[Ksudo vi /ec[Ktc/hostname
+[?2004l[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;26r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[26;1H"/etc/hostname" 1L, 17B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1Hip-172-31-45-163
+[94m~                                                                                                                                          [3;1H~                                                                                                                                          [4;1H~                                                                                                                                          [5;1H~                                                                                                                                          [6;1H~                                                                                                                                          [7;1H~                                                                                                                                          [8;1H~                                                                                                                                          [9;1H~                                                                                                                                          [10;1H~                                                                                                                                          [11;1H~                                                                                                                                          [12;1H~                                                                                                                                          [13;1H~                                                                                                                                          [14;1H~                                                                                                                                          [15;1H~                                                                                                                                          [16;1H~                                                                                                                                          [17;1H~                                                                                                                                          [18;1H~                                                                                                                                          [19;1H~                                                                                                                                          [20;1H~                                                                                                                                          [21;1H~                                                                                                                                          [22;1H~                                                                                                                                          [23;1H~                                                                                                                                          [24;1H~                                                                                                                                          [25;1H~                                                                                                                                          [m[26;122H1,1[11CAll[1;1H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?12$p[?25l[26;112H1[1;1H[26;113Hb[1;1H[26;114H/[1;1H[26;115H1[1;1H[26;116He[1;1H[26;117H1[1;1H[26;118He[1;1H[26;119H/[1;1H[26;120H2[1;1H[26;121Hb[1;1H[26;112H          [1;1H[27m[23m[29m[m[H[2J[1;1Hip-172-31-45-163
+[94m~                                                                                                                                          [3;1H~                                                                                                                                          [4;1H~                                                                                                                                          [5;1H~                                                                                                                                          [6;1H~                                                                                                                                          [7;1H~                                                                                                                                          [8;1H~                                                                                                                                          [9;1H~                                                                                                                                          [10;1H~                                                                                                                                          [11;1H~                                                                                                                                          [12;1H~                                                                                                                                          [13;1H~                                                                                                                                          [14;1H~                                                                                                                                          [15;1H~                                                                                                                                          [16;1H~                                                                                                                                          [17;1H~                                                                                                                                          [18;1H~                                                                                                                                          [19;1H~                                                                                                                                          [20;1H~                                                                                                                                          [21;1H~                                                                                                                                          [22;1H~                                                                                                                                          [23;1H~                                                                                                                                          [24;1H~                                                                                                                                          [25;1H~                                                                                                                                          [m[26;122H1,1[11CAll"/etc/hostname" 1L, 17B[1;1H[?25h[?25l[26;112Hi[1;1H[26;112H [1;1H[26;1H[1m-- INSERT --[m[26;13H[K[26;122H1,1[11CAll[1;1H[?25h[?25l[26;124H2[1;2H[?25h[?25l[26;124H3[1;3H[?25h[?25l[26;124H4[1;4H[?25h[?25l[26;124H5[1;5H[?25h[?25l[26;124H6[1;6H[?25h[?25l[26;124H7[1;7H[?25h[?25l[26;124H8[1;8H[?25h[?25l[26;124H9[1;9H[?25h[?25l[26;124H10[1;10H[?25h[?25l[26;125H1[1;11H[?25h[?25l[26;125H2[1;12H[?25h[?25l[26;125H3[1;13H[?25h[?25l[26;125H5[1;15H[?25h[?25l[26;125H6[1;16H[?25h[?25l[26;125H7[1;17H[?25h[?25l[1;16H[K[26;125H6[1;16H[?25h[?25l[1;15H[K[26;125H5[1;15H[?25h[?25l[1;14H[K[26;125H4[1;14H[?25h[?25l[1;13H[K[26;125H3[1;13H[?25h[?25l[1;12H[K[26;125H2[1;12H[?25h[?25l[1;11H[K[26;125H1[1;11H[?25h[?25l[1;10H[K[26;125H0[1;10H[?25h[?25l[1;9H[K[26;124H9 [1;9H[?25h[?25l[1;8H[K[26;124H8[1;8H[?25h[?25l[1;6H[K[26;124H6[1;6H[?25h[?25l[1;5H[K[26;124H5[1;5H[?25h[?25l[1;4H[K[26;124H4[1;4H[?25h[?25l[1;2H[K[26;124H2[1;2H[?25h[?25l[1;1H[K[26;124H1[1;1H[?25h[?25lJ[26;124H2[1;2H[?25h[?25le[26;124H3[1;3H[?25h[?25ln[26;124H4[1;4H[?25h[?25lk[26;124H5[1;5H[?25h[?25li[26;124H6[1;6H[?25h[?25ln[26;124H7[1;7H[?25h[?25ls[26;124H8[1;8H[?25h[?25l-[26;124H9[1;9H[?25h[?25lS[26;124H10[1;10H[?25h[?25le[26;125H1[1;11H[?25h[?25lr[26;125H2[1;12H[?25h[?25lv[26;125H3[1;13H[?25h[?25le[26;125H4[1;14H[?25h[?25lr[26;125H5[1;15H[?25h[?25l[26;125H4[1;14H[?25h[?25l[26;125H3[1;13H[?25h[?25l[26;125H2[1;12H[?25h[?25l[26;125H1[1;11H[?25h[?25l[26;125H0[1;10H[?25h[?25l[26;124H9 [1;9H[?25h[?25l[26;124H8[1;8H[?25h[?25l--Server[26;124H9[1;9H[?25h[?25lM-Server[26;124H10[1;10H[?25h[?25la-Server[26;125H1[1;11H[?25h[?25ls-Server[26;125H2[1;12H[?25h[?25le-Server[26;125H3[1;13H[?25h[?25l-Server[1;19H[K[26;125H2[1;12H[?25h[?25lt-Server[26;125H3[1;13H[?25h[?25le-Server[26;125H4[1;14H[?25h[?25lr-Server[26;125H5[1;15H[?25h[?25l[26;125H6[1;16H[?25h[?25l[26;125H7[1;17H[?25h[?25l[26;125H8[1;18H[?25h[?25l[26;125H9[1;19H[?25h[?25l[26;124H20[1;20H[?25h[26;1H[K[1;19H[?25l[26;112H^[[1;19H[26;112H  [1;20H[26;122H1,19[10CAll[1;19H[?25h[?25l[26;112H:[1;19H[26;112H[K[26;1H:[?25hwq![?25l[?2004l[>4;m"/etc/hostname" 1L, 22B written[23;2t[23;1t
+[?1004l[?2004l[?1l>[?25h[>4;m[?1049l[23;0;0t[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ sudo vi /etc/hostname[K[K[K[Ks
+[?2004l[?1049h[22;0;0t[>4;2m[?1h=[?2004h[?1004h[1;26r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[26;1H"/etc/hosts" 9L, 221B[2;1H▽[6n[2;1H  [3;1HPzz\[0%m[6n[3;1H           [1;1H[>c]10;?]11;?[1;1H127.0.0.1 localhost[2;1H[K[3;1H[34m# The following lines are desirable for IPv6 capable hosts[m[3;59H[K[4;1H::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+[94m~                                                                                                                                          [11;1H~                                                                                                                                          [12;1H~                                                                                                                                          [13;1H~                                                                                                                                          [14;1H~                                                                                                                                          [15;1H~                                                                                                                                          [16;1H~                                                                                                                                          [17;1H~                                                                                                                                          [18;1H~                                                                                                                                          [19;1H~                                                                                                                                          [20;1H~                                                                                                                                          [21;1H~                                                                                                                                          [22;1H~                                                                                                                                          [23;1H~                                                                                                                                          [24;1H~                                                                                                                                          [25;1H~                                                                                                                                          [m[26;122H1,1[11CAll[1;1H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[?12$p[?25l[26;112H1[1;1H[26;113Hb[1;1H[26;114H/[1;1H[26;115H1[1;1H[26;116He[1;1H[26;117H1[1;1H[26;118He[1;1H[26;119H/[1;1H[26;120H2[1;1H[26;121Hb[1;1H[26;112H          [1;1H[27m[23m[29m[m[H[2J[1;1H127.0.0.1 localhost
+
+[96m# The following lines are desirable for IPv6 capable hosts[m
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+[94m~                                                                                                                                          [11;1H~                                                                                                                                          [12;1H~                                                                                                                                          [13;1H~                                                                                                                                          [14;1H~                                                                                                                                          [15;1H~                                                                                                                                          [16;1H~                                                                                                                                          [17;1H~                                                                                                                                          [18;1H~                                                                                                                                          [19;1H~                                                                                                                                          [20;1H~                                                                                                                                          [21;1H~                                                                                                                                          [22;1H~                                                                                                                                          [23;1H~                                                                                                                                          [24;1H~                                                                                                                                          [25;1H~                                                                                                                                          [m[26;122H1,1[11CAll"/etc/hosts" 9L, 221B[1;1H[?25h[?25l[26;112H~@k[1;1H[26;112H   [1;2H[26;124H2[1;2H[?25h[?25l[26;112H~@k[1;2H[26;112H   [1;3H[26;124H3[1;3H[?25h[?25l[26;112H~@k[1;3H[26;112H   [1;4H[26;124H4[1;4H[?25h[?25l[26;112H~@k[1;4H[26;112H   [1;5H[26;124H5[1;5H[?25h[?25l[26;112H~@k[1;5H[26;112H   [1;6H[26;124H6[1;6H[?25h[?25l[26;112H~@k[1;6H[26;112H   [1;7H[26;124H7[1;7H[?25h[?25l[26;112H~@k[1;7H[26;112H   [1;8H[26;124H8[1;8H[?25h[?25l[26;112H~@k[1;8H[26;112H   [1;9H[26;124H9[1;9H[?25h[?25l[26;112H~@k[1;9H[26;112H   [1;10H[26;124H10[1;10H[?25h[?25l[26;125H1[1;11H[?25h[?25l[26;112H~@k[1;11H[26;112H   [1;12H[26;125H2[1;12H[?25h[?25l[26;125H3[1;13H[?25h[?25l[26;112H~@k[1;13H[26;112H   [1;14H[26;125H4[1;14H[?25h[?25l[26;112H~@k[1;14H[26;112H   [1;15H[26;125H5[1;15H[?25h[?25l[26;112H~@k[1;15H[26;112H   [1;16H[26;125H6[1;16H[?25h[?25l[26;125H7[1;17H[?25h[?25l[26;112H~@k[1;17H[26;112H   [1;18H[26;125H8[1;18H[?25h[?25l[26;112H~@k[1;18H[26;112H   [1;19H[26;125H9[1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112H~@k[1;19H[26;112H   [1;19H[?25h[?25l[26;112Hi[1;19H[26;112H [1;19H[26;1H[1m-- INSERT --[m[26;14H[K[26;122H1,19[10CAll[1;19H[?25h[?25l[26;124H20[1;20H[?25h[?25l[2;25r[2;1H[L[1;26r[26;122H[K[26;122H2,1[11CAll[2;1H[?25h[?25l1[26;124H2[2;2H[?25h[?25l2[26;124H3[2;3H[?25h[?25l7[26;124H4[2;4H[?25h[?25l.[26;124H5[2;5H[?25h[?25l0[26;124H6[2;6H[?25h[?25l.[26;124H7[2;7H[?25h[?25l1[26;124H8[2;8H[?25h[?25l.[26;124H9[2;9H[?25h[?25l1[26;124H10[2;10H[?25h[?25l[26;125H1[2;11H[?25h[?25lJenkins-Master-Server[26;124H32[2;32H[?25h[26;1H[K[2;31H[?25l[26;112H^[[2;31H[26;112H  [2;32H[26;122H2,31[10CAll[2;31H[?25h[?25l[26;112H:[2;31H[26;112H[K[26;1H:[?25hwq![?25l[?2004l[>4;m"/etc/hosts" 10L, 253B written[23;2t[23;1t
+[?1004l[?2004l[?1l>[?25h[>4;m[?1049l[23;0;0t[?2004h]0;ubuntu@ip-172-31-45-163: ~[01;32mubuntu@ip-172-31-45-163[00m:[01;34m~[00m$ sudo vi /etc/hostsnamecl[Ksudo reboot
+[?2004lConnection to 51.20.188.53 closed by remote host.
+Connection to 51.20.188.53 closed.
+[?2004h]0;funmiriri@instance-1: ~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[01;32mfunmiriri@instance-1[00m:[01;34m~/DevOps/Terraform/DevOps-Servers/Jenkins-Master-Server[00m$ ssh -i /home/funmiriri/.ssh/temporal-jenkins-master-sshkey ubuntu@51.20.188.53
+[?2004lWelcome to Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-1017-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Mar 29 15:26:33 UTC 2024
+
+  System load:  0.005859375       Processes:                102
+  Usage of /:   9.8% of 38.58GB   Users logged in:          0
+  Memory usage: 22%               IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                IPv4 address for ens5:    172.31.45.163
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+106 updates can be applied immediately.
+65 of these updates are standard security updates.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Fri Mar 29 15:12:10 2024 from 34.147.209.77
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ cl
+[?2004l[H[2J[3J[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [K]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ sudo cat [7m/var/lib/jenkins/secrets/initialAdminPassword[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C/var/lib/jenkins/secrets/initialAdminPassword
+[?2004l5891c07a7c0041cb84bed776b1472b78
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ [7mdocker run -d --name sonar -p 9000:9000 sonarqube:lts-community[27m[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cdocker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+[?2004ldocker: Error response from daemon: Conflict. The container name "/sonar" is already in use by container "1e20d0d80554f4924a051d0bc6fcf2d5c7fbef9819493784e3d2c8a977092098". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ docker ps
+[?2004lCONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ docker images
+[?2004lREPOSITORY   TAG             IMAGE ID       CREATED       SIZE
+sonarqube    lts-community   1e64814986e1   4 weeks ago   604MB
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ docker ps -a
+[?2004lCONTAINER ID   IMAGE                     COMMAND                  CREATED             STATUS                        PORTS     NAMES
+1e20d0d80554   sonarqube:lts-community   "/opt/sonarqube/dock…"   About an hour ago   Exited (130) 28 minutes ago             sonar
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ docker start [7m1e20d0d80554[27m1e20d0d80554
+[?2004l1e20d0d80554
+[?2004h]0;ubuntu@Jenkins-Master-Server: ~[01;32mubuntu@Jenkins-Master-Server[00m:[01;34m~[00m$ docker ps 
+[?2004lCONTAINER ID   IMAGE                    
