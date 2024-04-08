@@ -83,3 +83,6 @@ Azure/_4VNETs/providers.tf.
 Azure/_5Azure_Functions/providers.tf.  
 Azure/_6Webapps/providers.tf.  
 Azure/_7SQL/providers.tf.
+
+**/Azure/*/providers.tf
+**/providers.tf
