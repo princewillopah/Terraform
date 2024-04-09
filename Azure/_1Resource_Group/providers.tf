@@ -8,5 +8,6 @@ terraform {
 }
 
 provider "azurerm" {
-//ggg
+//
+
 }
