@@ -42,6 +42,21 @@ resource "azurerm_storage_blob" "storage_blob" {
   # ]
 }
 
+# resource "azurerm_storage_blob" "storage_blob" {
+#   for_each = {
+#     sample1 = "C:\\tem2\\sample1.txt"
+#     sample1 = "C:\\tem2\\sample2.txt"
+#     sample1 = "C:\\tem2\\sample3.txt"
+#   }
+#   name                   = "${each.key}.txt"
+#   storage_account_name   = azurerm_storage_account.my-storage-account.name
+#   storage_container_name = azurerm_storage_container.example_container.name
+#   type                   = "Block"
+#   source                 = each.value
+
+# }
+//////////////////////////////// others //////////////////////////////////////
+
 
 # resource "azurerm_storage_share" "sharename_example" {
 #   name                 = "sharename_example"
