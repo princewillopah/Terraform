@@ -1,0 +1,103 @@
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+
+resource "aws_vpc" "my-vpc" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  tags = {
+    Name = "${var.environment}-VPC"
+  }
+}
+
+//-----------------------------------------------------
+// Subnets 
+//----------------------------------------------------
+
+resource "aws_subnet" "my-subnets" {
+  count             = var.number_subnets
+  vpc_id     = aws_vpc.my-vpc.id 
+  cidr_block =  count.index < 3 ?  "10.0.${count.index}.0/24" :  "10.0.${count.index}.0/24"
+  availability_zone = element(var.azs, count.index) # specify the zone for this subnet
+  tags = {
+    Name = count.index < 3 ? "Public-Subnet-${count.index + 1}" : "Private-Subnet-${count.index + 1}"  # Name each subnet uniquely based on its index
+    Type = count.index < 3 ? "Public" : "Private" // Add a tag to identify public and private subnets
+  }
+}
+
+
+//-----------------------------------------------------
+// public route table
+//----------------------------------------------------
+resource "aws_internet_gateway" "gw" {
+ vpc_id = aws_vpc.my-vpc.id
+ tags = {
+   Name = "${var.environment}-VPC-IGW"
+ }
+}
+
+resource "aws_route_table" "Public_Route_Table" {
+ vpc_id = aws_vpc.my-vpc.id
+ route {
+   cidr_block = "0.0.0.0/0"
+   gateway_id = aws_internet_gateway.gw.id
+ }
+ tags = {
+   Name = "Public Route Table"
+ }
+}
+// Retrieve public subnet IDs
+data "aws_subnet" "public_subnets" {
+  vpc_id = aws_vpc.my-vpc.id
+  tags = {
+    Type = "Public" // Filter subnets by the "Type" tag to get public subnets
+  }
+}
+# resource "aws_route_table_association" "public_subnet_asso" {
+#  count = length(var.public_subnet_cidrs)
+#  subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
+#  route_table_id = aws_route_table.Public_Route_Table.id
+# }
+
+// Associate public subnets with the public route table
+resource "aws_route_table_association" "public_subnet_asso" {
+  count          = length(data.aws_subnet.public_subnets.id)
+  subnet_id      = data.aws_subnet.public_subnets.id[count.index]
+  route_table_id = aws_route_table.Public_Route_Table.id
+}
+
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+# subnet_id = data.aws_subnet_ids.public_subnets.ids[count.index % length(data.aws_subnet_ids.public_subnets.ids)]
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------
+
+//-----------------------------------------------------
+// VPC
+//----------------------------------------------------

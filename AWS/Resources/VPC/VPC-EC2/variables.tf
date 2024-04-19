@@ -19,5 +19,5 @@ variable "azs" {
 }
 variable "environment" {
   description = "Deployment Environment"
-  default     = 1
+  default     = "Deployment-Environment"
 }

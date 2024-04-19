@@ -44,27 +44,27 @@ resource "aws_default_route_table" "default-route-table" {
   }
 }
 
-# note, if route table is not created using the terraform during generation of the vpc, aws will create a default route table for you, 
-# specifying the using cidr ip  of the vpc. the route object will be "local" stating that the traffic can only be within the vpc
-# resource "aws_route_table" "myapp-router-table" {
-#  vpc_id = aws_vpc.myapp-vpc.id
+## note, if route table is not created using the terraform during generation of the vpc, aws will create a default route table for you, 
+## specifying the using cidr ip  of the vpc. the route object will be "local" stating that the traffic can only be within the vpc
+resource "aws_route_table" "myapp-router-table" {
+ vpc_id = aws_vpc.myapp-vpc.id
 
-#   # since this is exactly the route AWS will create, the route will be adopted
-#   route { #this is perovided by default. This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified
-#     # cidr_block = "10.1.0.0/16"  this line will be provided by default if not specified. it picks the vpc cidr ip
-#      cidr_block = "0.0.0.0/0" # this is fer te internet gateway
-#     gateway_id = aws_internet_gateway.myapp-internet-gateway.id
-#   }
-#   tags = {
-#     Name = "${var.env_prefix}-router-table"
-#   }
-# }
+  # since this is exactly the route AWS will create, the route will be adopted
+  route { #this is perovided by default. This means that omitting this argument is interpreted as ignoring any existing routes. To remove all managed routes an empty list should be specified
+    # cidr_block = "10.1.0.0/16"  this line will be provided by default if not specified. it picks the vpc cidr ip
+     cidr_block = "0.0.0.0/0" # this is fer te internet gateway
+    gateway_id = aws_internet_gateway.myapp-internet-gateway.id
+  }
+  tags = {
+    Name = "${var.env_prefix}-router-table"
+  }
+}
 
-# # associate the subnet to a route table
-# resource "aws_route_table_association" "associate-rtbl-subnet" {
-#   subnet_id      = aws_subnet.myapp-subnet-1.id
-#   route_table_id = aws_route_table.myapp-router-table.id
-# }
+# associate the subnet to a route table
+resource "aws_route_table_association" "associate-rtbl-subnet" {
+  subnet_id      = aws_subnet.myapp-subnet-1.id
+  route_table_id = aws_route_table.myapp-router-table.id
+}
 
 
 
