@@ -105,7 +105,7 @@ resource "aws_instance" "Jenkins-Master-Instance" {
 
 associate_public_ip_address    = true # to make sure public ip is display
 
-user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
+# user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
 
 
 
