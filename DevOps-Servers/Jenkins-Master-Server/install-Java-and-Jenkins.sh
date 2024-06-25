@@ -13,14 +13,14 @@ sudo apt-get install jenkins -y
 sudo systemctl start jenkins
 sudo systemctl status jenkins
 
-##Install Docker and Run SonarQube as Container
+# ##Install Docker and Run SonarQube as Container
 sudo apt-get update
 sudo apt-get install docker.io -y
 sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins  
 newgrp docker
 sudo chmod 777 /var/run/docker.sock
-docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+# docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 
 #install trivy
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y

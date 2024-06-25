@@ -18,19 +18,42 @@ variable "avail_zone" {
 }
 
 variable "environment" {
-  description = "Jenkins Projects"
- default     = "Jenkins-Projects"
+ description = "Security Group for VPROFILE Load Balancer"
+ default     = "V-PROVILE-APP"
+}
+
+variable "environment-ELB-SG" {
+ description = "Security Group for VPROFILE Load Balancer"
+ default     = "V-PROVILE-ELB-SG"
+}
+
+variable "environment-BACKEND-SERVICES-SG" {
+ description = "Security Group for VPROFILE-BACKEND-SERVICES Load Balancer"
+ default     = "V-PROVILE-BACKEND-SERVICES-SG"
+}
+
+variable "environment-TOMCAT-APPLICATION-SG" {
+ description = "Security Group for VPROFILE-APPLICATION  Load Balancer"
+ default     = "V-PROVILE-TOMCAT-APPLICATION-SG"
 }
 
 variable "environment1" {
-  description = "Jenkin Master"
- default     = "Jenkin Master"
+  description = "App Server"
+ default     =   "App-Server"
 }
 variable "environment2" {
-  description = "Jenkin Slave1"
- default     = "Jenkin-Slave1"
+  description = "Database Server"
+ default     = "DB Server"
 }
 variable "environment3" {
-  description = "Ansible Server"
- default     = "Ansible-Server"
+  description = "Memcache Server"
+ default     = "Memcache-Server"
 }
+variable "environment4" {
+  description = "Rabbit MQ erver"
+ default     = "Rabbit-MQ-Server"
+}
+# variable "environment5" {
+#   description = "Web Server"
+#  default     = "Web-Server"
+# }

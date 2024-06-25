@@ -44,131 +44,188 @@ resource "local_file" "private_key" {
 }
 
 /////////////////////////////////////////////////////////////////////
-
-
+///  EC2 INSTANCES  
 /////////////////////////////////////////////////////////////////////
 
-
-
-
-
-resource "aws_security_group" "ec2-security-group" {
-  
-  # description = "Allow TLS inbound traffic"
-#   vpc_id      = aws_vpc.myapp-vpc.id    #so the servers in the vpc can be associated weith the secuerity group
-
-		#so ingress block handles the incoming requests/traffics to access the resources in the VPC such as accessing the ec2 instance from your CLI 0r accessing the nginx on port 8080 on port 22. in these cases we are sending traffic/requests to the VPC to access the EC2 instance or the nginx in it
-  #rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 22 for cli access to the EC2 instance"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    # cidr_blocks      = [var.my-ip] only that stated ip will be able to access the ip
-    cidr_blocks      = ["0.0.0.0/0"]  #for all ips to be able to access the ec2
-  }
-#rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
-    from_port        = 8080
-    to_port          = 8080
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
-  }
-#rules to expose port 22 for aceessing ec2 instance ourside
-  ingress {
-    description      = "Open port 8081 for access of the nexus server in the ec2 instance from a browser "
-    from_port        = 8081
-    to_port          = 8081
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
-  }
-  ingress {
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-# the egress block handles rules for our resource within the vpc making requests or sending trafic outside the vpc to the internet. examples of such traffic is like when you want to install docker or other package in your EC2 instance, the binaries needs to be fectched or downloaded from the internet. another example, when we run an nginx image, the images has to be fetched from the dockerhub. these are requests made by the ec2 from your vpc to the internet  
-  egress {
-    description      = "rules to allow access of the resources inside the vpc to the internet"
-    from_port        = 0 # not restricting the request to any port out there is to set the value to 0
-    to_port          = 0 #same here
-    protocol         = "-1"  # not to restricct the protocal to a particular ones, we set this to "any" by using -1
-    cidr_blocks      = ["0.0.0.0/0"]  # any ip address out there
-  }
-
-  tags = {
-    Name = "${var.environment}--security-group"
-  }
-}
-
-
-resource "aws_instance" "Jenkin-Master-EC2-Instance" {
-  ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
-  instance_type = "t3.micro"
-
-  # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
-  key_name               = aws_key_pair.key_pair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
-
-
-associate_public_ip_address    = true # to make sure public ip is display
-# key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
-
- root_block_device {
+// EC2 Instances
+resource "aws_instance" "EC2_Instance_1" {
+  ami                     = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type           = "t3.micro"
+  key_name                = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids  = [aws_security_group.tomcat_app_security_group.id]
+  associate_public_ip_address = true
+  root_block_device {
     volume_size = 9
     volume_type = "gp2"
   }
-
- tags = {
+  tags = {
     Name = "${var.environment1}"
   }
 }
 
-resource "aws_instance" "Jenkin-Slave1-EC2-Instance" {
-  ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
-  instance_type = "t3.micro"
-
-  # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
-  key_name               = aws_key_pair.key_pair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
-
-
-associate_public_ip_address    = true # to make sure public ip is display
-# key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
-
- root_block_device {
+resource "aws_instance" "EC2_Instance_2" {
+  ami                     = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type           = "t3.micro"
+  key_name                = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids  = [aws_security_group.backend_services_security_group.id]
+  associate_public_ip_address = true
+  root_block_device {
     volume_size = 9
     volume_type = "gp2"
   }
-
- tags = {
+  tags = {
     Name = "${var.environment2}"
   }
 }
 
-resource "aws_instance" "Ansible-EC2-Instance" {
-  ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
-  instance_type = "t3.micro"
-
-  # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
-  key_name               = aws_key_pair.key_pair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
-
-
-associate_public_ip_address    = true # to make sure public ip is display
-# key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
-
- root_block_device {
+resource "aws_instance" "EC2_Instance_3" {
+  ami                     = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type           = "t3.micro"
+  key_name                = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids  = [aws_security_group.backend_services_security_group.id]
+  associate_public_ip_address = true
+  root_block_device {
     volume_size = 9
     volume_type = "gp2"
   }
-
- tags = {
+  tags = {
     Name = "${var.environment3}"
   }
 }
+
+resource "aws_instance" "EC2_Instance_4" {
+  ami                     = "ami-0989fb15ce71ba39e" # for eu-north-1
+  instance_type           = "t3.micro"
+  key_name                = aws_key_pair.key_pair.key_name
+  vpc_security_group_ids  = [aws_security_group.backend_services_security_group.id]
+  associate_public_ip_address = true
+  root_block_device {
+    volume_size = 9
+    volume_type = "gp2"
+  }
+  tags = {
+    Name = "${var.environment4}"
+  }
+}
+
+///////////////////////////////////////////////
+# old
+///////////////////////////////////////////////
+
+# resource "aws_instance" "EC2-Instance-1" {
+#   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+#   instance_type = "t3.micro"
+
+#   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+#   key_name               = aws_key_pair.key_pair.key_name
+#   vpc_security_group_ids = [aws_security_group.tomcat-app-security-group.id]
+
+
+# associate_public_ip_address    = true # to make sure public ip is display
+# # user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
+
+#  root_block_device {
+#     volume_size = 9
+#     volume_type = "gp2"
+#   }
+
+#  tags = {
+#     Name = "${var.environment1}"
+#   }
+# }
+
+
+# // 2ND EC2
+# resource "aws_instance" "EC2-Instance-2" {
+#   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+#   instance_type = "t3.micro"
+
+#   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+#   key_name               = aws_key_pair.key_pair.key_name
+#   vpc_security_group_ids = [aws_security_group.backend-services-security-group.id]
+
+
+# associate_public_ip_address    = true # to make sure public ip is display
+# # user_data = file("install-git-and-mariadb.sh") #handles instalation of docker on ec2 instance and running nginx on it
+ 
+ 
+#  root_block_device {
+#     volume_size = 9
+#     volume_type = "gp2"
+#   }
+
+#  tags = {
+#     Name = "${var.environment2}"
+#   }
+# }
+
+
+# // 3RD EC2
+# resource "aws_instance" "EC2-Instance-3" {
+#   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+#   instance_type = "t3.micro"
+
+#   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+#   key_name               = aws_key_pair.key_pair.key_name
+#   vpc_security_group_ids = [aws_security_group.backend-services-security-group.id]
+
+
+# associate_public_ip_address    = true # to make sure public ip is display
+# # key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
+# # user_data = file("install-memcache.sh") #handles instalation of docker on ec2 instance and running nginx on it
+ 
+#  root_block_device {
+#     volume_size = 9
+#     volume_type = "gp2"
+#   }
+
+#  tags = {
+#     Name = "${var.environment3}"
+#   }
+# }
+
+
+# // 4th EC2
+# resource "aws_instance" "EC2-Instance-4" {
+#   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+#   instance_type = "t3.micro"
+
+#   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+#   key_name               = aws_key_pair.key_pair.key_name
+#   vpc_security_group_ids = [aws_security_group.backend-services-security-group.id]
+
+
+# associate_public_ip_address    = true # to make sure public ip is display
+# # key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
+# # user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
+ 
+#  root_block_device {
+#     volume_size = 9
+#     volume_type = "gp2"
+#   }
+
+#  tags = {
+#     Name = "${var.environment4}"
+#   }
+# }
+
+# // 5th EC2
+# resource "aws_instance" "EC2-Instance-5" {
+#   ami           = "ami-0989fb15ce71ba39e" # for eu-north-1
+#   instance_type = "t3.micro"
+#   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+#   key_name               = aws_key_pair.key_pair.key_name
+#   vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
+# associate_public_ip_address    = true # to make sure public ip is display
+# # key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
+# # user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
+#  root_block_device {
+#     volume_size = 9
+#     volume_type = "gp2"
+#   }
+#  tags = {
+#     Name = "${var.environment5}"
+#   }
+# }
 
 
