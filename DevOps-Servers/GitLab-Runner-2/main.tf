@@ -12,7 +12,7 @@ resource "tls_private_key" "rsa_4096" {
 # define a key name
 variable "key_name" {
   description = "Name of the SSH key pair"
-  default = "temporal-ekc-bootstrap-server-sshkey"
+  default = "temporal-gitlab-runner-sshkey"
 }
 
 // Define the home directory variable
@@ -120,7 +120,7 @@ resource "aws_security_group" "ec2-security-group" {
 }
 
 
-resource "aws_instance" "EKS-Bootstrap-Server" {
+resource "aws_instance" "GitLab-Runner-two" {
   ami           = "ami-0914547665e6a707c" # for eu-north-1
   instance_type = "t3.micro"
 
