@@ -160,7 +160,7 @@ variable "number_public_subnet" {
 }
 
 
-resource "azurerm_subnet" "my-subnets" {
+resource "azurerm_subnet" "my---subnets" {
   count                   = var.number_public_subnet  // number from variable 
   name                    = "subnet-${count.index + 1}"
     resource_group_name = azurerm_resource_group.rg.name
