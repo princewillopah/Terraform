@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 60 # wait for 60 secs for the ec2 instance to get from initializing state to running state
+
 # INSTALLING JAVA
 sudo apt update
 sudo apt install fontconfig openjdk-17-jre
@@ -42,3 +44,6 @@ echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.
 sudo apt-get update
 sudo apt-get install trivy -y
 trivy -v
+
+
+echo 'alias cl="clear"' >> ~/.bashrc
