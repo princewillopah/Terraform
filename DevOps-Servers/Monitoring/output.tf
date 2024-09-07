@@ -12,17 +12,17 @@
 
 
 
-output "user" {
-  value = "ubuntu"
-}
+# output "user" {
+#   value = "ubuntu"
+# }
 
-output "IP_Address" {
-  value = aws_instance.Monitoring-Server.public_ip
-}
+# output "IP_Address" {
+#   value = aws_instance.Monitoring-Server.public_ip
+# }
 
-output "ssh_key" {
-  value = "${pathexpand(var.home_directory)}/${var.key_name}"
-}
+# output "ssh_key" {
+#   value = "${pathexpand(var.home_directory)}/${var.key_name}"
+# }
 
 output "connection_to_server" {
   value = " ssh -i ${pathexpand(var.home_directory)}/${var.key_name} ubuntu@${aws_instance.Monitoring-Server.public_ip}"

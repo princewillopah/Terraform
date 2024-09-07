@@ -12,13 +12,14 @@ resource "tls_private_key" "rsa_4096" {
 # define a key name
 variable "key_name" {
   description = "Name of the SSH key pair"
-  default = "temporal-Monitoring-sshkey"
+  default = "VPC-C-server-sshkey"
 }
 
 // Define the home directory variable
 variable "home_directory" {
   description = "The user's home directory"
   default = "~/.ssh"
+  
 }
 
 // Create Key Pair for Connecting EC2 via SSH
@@ -37,10 +38,10 @@ resource "local_file" "private_key" {
   # filename = "${pathexpand("~/.ssh/")}${var.key_name}" #${pathexpand("~/.ssh/")} is used to get the path to the user's home directory, and then ${var.key_name} is appended to specify the full path to the key file in the .ssh directory. 
 
  filename = "${pathexpand(var.home_directory)}/${var.key_name}"
-  provisioner "local-exec" { # The local-exec provisioner is also updated to use the same path when running the chmod command.
-    # command = "chmod 400 ${var.key_name}" 
-   command = "chmod 400 ${pathexpand(var.home_directory)}/${var.key_name}"
-  }
+  # provisioner "local-exec" { # The local-exec provisioner is also updated to use the same path when running the chmod command.
+  #   # command = "chmod 400 ${var.key_name}" 
+  #  command = "chmod 400 ${pathexpand(var.home_directory)}/${var.key_name}"
+  # }
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -52,8 +53,13 @@ resource "local_file" "private_key" {
 
 
 
-resource "aws_security_group" "ec2-security-group" {
+resource "aws_security_group" "ec2-c-security-group" {
   
+  # description = "Allow TLS inbound traffic"
+  vpc_id      = aws_vpc.myapp-vpc.id    #so the servers in the vpc can be associated weith the secuerity group
+
+		#so ingress block handles the incoming requests/traffics to access the resources in the VPC such as accessing the ec2 instance from your CLI 0r accessing the nginx on port 8080 on port 22. in these cases we are sending traffic/requests to the VPC to access the EC2 instance or the nginx in it
+  #rules to expose port 22 for aceessing ec2 instance ourside
   ingress {
     description      = "Open port 22 for cli access to the EC2 instance"
     from_port        = 22
@@ -64,9 +70,17 @@ resource "aws_security_group" "ec2-security-group" {
   }
 #rules to expose port 22 for aceessing ec2 instance ourside
   ingress {
-    description      = "Open port 3000 - 10000 for access of the nginx server in the ec2 instance from a browser "
-    from_port        = 3000
-    to_port          = 10000
+    description      = "Open port 80 for access of the nginx server in the ec2 instance from a browser "
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
+  }
+#rules to expose port 22 for aceessing ec2 instance ourside
+  ingress {
+    description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
+    from_port        = 8080
+    to_port          = 8080
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
   }
@@ -78,19 +92,31 @@ resource "aws_security_group" "ec2-security-group" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
   }
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 4000
+    to_port     = 4000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+ ingress {
+    from_port   = 9000
+    to_port     = 9000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
- ingress {
-    from_port   = 9090
-    to_port     = 9090
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
- ingress {
-    from_port   = 9100
-    to_port     = 9100
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 # the egress block handles rules for our resource within the vpc making requests or sending trafic outside the vpc to the internet. examples of such traffic is like when you want to install docker or other package in your EC2 instance, the binaries needs to be fectched or downloaded from the internet. another example, when we run an nginx image, the images has to be fetched from the dockerhub. these are requests made by the ec2 from your vpc to the internet  
   egress {
     description      = "rules to allow access of the resources inside the vpc to the internet"
@@ -106,22 +132,24 @@ resource "aws_security_group" "ec2-security-group" {
 }
 
 
-resource "aws_instance" "Monitoring-Server" {
-  ami           = "ami-0014ce3e52359afbd" # for eu-north-1
-  instance_type = "t3.large"
+resource "aws_instance" "EKS-Bootstrap-Server" {
+  ami           = "ami-0914547665e6a707c" # for eu-north-1
+  instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
   #  instance_type = "t4g.small"
 
   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
+  subnet_id     =  aws_subnet.my_public_subnet.id
+  vpc_security_group_ids    = [aws_security_group.ec2-c-security-group.id]
+  availability_zone    = var.avail_zone
   key_name               = aws_key_pair.key_pair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
+
 
 
 associate_public_ip_address    = true # to make sure public ip is display
 # key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
-user_data = file("prometheus.sh")
-
+user_data = file("install.sh") #handles instalation of docker on ec2 instance and running nginx on it
  root_block_device {
     volume_size = 20
     volume_type = "gp2"

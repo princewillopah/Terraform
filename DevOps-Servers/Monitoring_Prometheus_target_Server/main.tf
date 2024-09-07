@@ -12,7 +12,7 @@ resource "tls_private_key" "rsa_4096" {
 # define a key name
 variable "key_name" {
   description = "Name of the SSH key pair"
-  default = "temporal-Monitoring-sshkey"
+  default = "temporal-Monitoring_Prometheus_target_Server-sshkey"
 }
 
 // Define the home directory variable
@@ -54,6 +54,11 @@ resource "local_file" "private_key" {
 
 resource "aws_security_group" "ec2-security-group" {
   
+  # description = "Allow TLS inbound traffic"
+#   vpc_id      = aws_vpc.myapp-vpc.id    #so the servers in the vpc can be associated weith the secuerity group
+
+		#so ingress block handles the incoming requests/traffics to access the resources in the VPC such as accessing the ec2 instance from your CLI 0r accessing the nginx on port 8080 on port 22. in these cases we are sending traffic/requests to the VPC to access the EC2 instance or the nginx in it
+  #rules to expose port 22 for aceessing ec2 instance ourside
   ingress {
     description      = "Open port 22 for cli access to the EC2 instance"
     from_port        = 22
@@ -64,9 +69,17 @@ resource "aws_security_group" "ec2-security-group" {
   }
 #rules to expose port 22 for aceessing ec2 instance ourside
   ingress {
-    description      = "Open port 3000 - 10000 for access of the nginx server in the ec2 instance from a browser "
-    from_port        = 3000
-    to_port          = 10000
+    description      = "Open port 80 for access of the nginx server in the ec2 instance from a browser "
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
+  }
+#rules to expose port 22 for aceessing ec2 instance ourside
+  ingress {
+    description      = "Open port 8080 for access of the nginx server in the ec2 instance from a browser "
+    from_port        = 8080
+    to_port          = 8080
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
   }
@@ -78,10 +91,27 @@ resource "aws_security_group" "ec2-security-group" {
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"] # expose to all ips sice is for all user
   }
-
- ingress {
-    from_port   = 9090
-    to_port     = 9090
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 4000
+    to_port     = 4000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+    ingress {
+    from_port   = 5050
+    to_port     = 5050
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -91,6 +121,7 @@ resource "aws_security_group" "ec2-security-group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
 # the egress block handles rules for our resource within the vpc making requests or sending trafic outside the vpc to the internet. examples of such traffic is like when you want to install docker or other package in your EC2 instance, the binaries needs to be fectched or downloaded from the internet. another example, when we run an nginx image, the images has to be fetched from the dockerhub. these are requests made by the ec2 from your vpc to the internet  
   egress {
     description      = "rules to allow access of the resources inside the vpc to the internet"
@@ -106,9 +137,9 @@ resource "aws_security_group" "ec2-security-group" {
 }
 
 
-resource "aws_instance" "Monitoring-Server" {
-  ami           = "ami-0014ce3e52359afbd" # for eu-north-1
-  instance_type = "t3.large"
+resource "aws_instance" "Monitoring_Prometheus_target_Server" {
+  ami           = "ami-0914547665e6a707c" # for eu-north-1
+  instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
   #  instance_type = "t4g.small"
@@ -120,7 +151,7 @@ resource "aws_instance" "Monitoring-Server" {
 
 associate_public_ip_address    = true # to make sure public ip is display
 # key_name     = aws_key_pair.myapp-key-pair.key_name #stating that we are using an a keypair generated above
-user_data = file("prometheus.sh")
+user_data = file("user_data.sh")
 
  root_block_device {
     volume_size = 20

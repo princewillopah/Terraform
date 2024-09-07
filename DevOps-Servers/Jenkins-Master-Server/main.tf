@@ -73,7 +73,7 @@ resource "aws_security_group" "ec2-security-group" {
 
   ingress {
     from_port   = 3000
-    to_port     = 5000
+    to_port     = 6000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -104,8 +104,8 @@ resource "aws_instance" "Jenkins-Master-Instance" {
 
 associate_public_ip_address    = true # to make sure public ip is display
 
-user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
-
+# user_data = file("install-Java-and-Jenkins.sh") #handles instalation of docker on ec2 instance and running nginx on it
+ user_data = file("docker.sh")
 
 
  root_block_device {

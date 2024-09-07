@@ -60,3 +60,17 @@ sudo tee /var/www/html/index.html > /dev/null <<EOF
 </body>
 </html>
 EOF
+
+
+
+# sudo apt-get update
+# sudo apt-get install -y nginx
+# sudo systemctl start nginx
+# sudo systemctl enable nginx
+
+# # Clone the static website
+# git clone https://github.com/your-repo/static-website.git /var/www/html
+
+# # Configure Nginx
+# sudo mv /var/www/html/static-website/nginx.conf /etc/nginx/sites-available/default
+# sudo systemctl restart nginx

@@ -27,14 +27,14 @@ sudo tee /var/www/html/index.html > /dev/null <<EOF
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            background-color: pink;
             color: #333;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 20vh;
         }
         .container {
             text-align: center;
@@ -47,7 +47,7 @@ sudo tee /var/www/html/index.html > /dev/null <<EOF
             margin: 0 0 20px;
         }
         p {
-            margin: 10px 0;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -60,3 +60,17 @@ sudo tee /var/www/html/index.html > /dev/null <<EOF
 </body>
 </html>
 EOF
+
+
+
+# sudo apt-get update
+# sudo apt-get install -y nginx
+# sudo systemctl start nginx
+# sudo systemctl enable nginx
+
+# # Clone the static website
+# git clone https://github.com/your-repo/static-website.git /var/www/html
+
+# # Configure Nginx
+# sudo mv /var/www/html/static-website/nginx.conf /etc/nginx/sites-available/default
+# sudo systemctl restart nginx
