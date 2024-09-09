@@ -37,7 +37,7 @@ output "jenkin-master-instance_public_ip" {
 # # windos
 # ------------------------------------------------
 
-output "connection_to_server" {
+output "connection_to_jenkins_master_server" {
   value = " ssh -i ~/.ssh/${var.key_name} ubuntu@${aws_instance.Jenkins-Master-Instance.public_ip}"
   # value = " ssh -i ${pathexpand(var.home_directory)}/${var.key_name} ubuntu@${aws_instance.Monitoring_Prometheus_target_Server.public_ip}"
 }

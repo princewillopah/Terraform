@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-sleep 240 # wait for 60 secs for the ec2 instance to get from initializing state to running state
+sleep 60 # wait for 60 secs for the ec2 instance to get from initializing state to running state
 
 sudo apt update -y
 wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | tee /etc/apt/keyrings/adoptium.asc
@@ -33,3 +33,4 @@ sudo apt-get update
 sudo apt-get install trivy -y
 
 echo 'alias cl="clear"' >> ~/.bashrc
+

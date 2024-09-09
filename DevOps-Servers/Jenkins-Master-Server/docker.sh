@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wait for the instance to initialize
-sleep 60
+sleep 120
 
 # Update package lists
 sudo apt-get update -y
