@@ -1,7 +1,9 @@
 resource "aws_instance" "ec2" {
   # ami                    = data.aws_ami.ami.image_id
-  ami                    = "ami-04cdc91e49cb06165"
-  instance_type          = "t3.xlarge"
+  # ami                    = "ami-04cdc91e49cb06165"
+  # instance_type          = "t3.xlarge"
+  ami           = "ami-0014ce3e52359afbd" # for eu-north-1
+  instance_type = "t3.large"
   key_name               = var.key-name
   subnet_id              = aws_subnet.public-subnet.id
   vpc_security_group_ids = [aws_security_group.security-group.id]

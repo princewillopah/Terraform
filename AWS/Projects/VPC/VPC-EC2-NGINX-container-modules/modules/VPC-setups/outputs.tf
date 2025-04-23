@@ -3,7 +3,10 @@ output "my-main-vpc-output" {
    value = aws_vpc.myapp-vpc  #we are exporting the whole object of the subnet so the ec2 instace module can reference it in it  configuration
 }
 
-
+#we are exporting the whole object of the subnet so the ec2 instace module can reference it in it  configuration
 output "my-main-subnet-output" {
-   value = aws_subnet.myapp-subnet-1  #we are exporting the whole object of the subnet so the ec2 instace module can reference it in it  configuration
+   value = aws_subnet.myapp-subnet-1  
 }
+
+
+

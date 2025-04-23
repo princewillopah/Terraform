@@ -4,44 +4,44 @@
 
 
 // To Generate Private Key
-resource "tls_private_key" "rsa_4096" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
+# resource "tls_private_key" "rsa_4096" {
+#   algorithm = "RSA"
+#   rsa_bits  = 4096
+# }
 
-# define a key name
-variable "key_name" {
-  description = "Name of the SSH key pair"
-  default = "temporal-ekc-bootstrap-server-sshkey"
-}
+# # define a key name
+# variable "key_name" {
+#   description = "Name of the SSH key pair"
+#   default = "temporal-ekc-bootstrap-server-sshkey"
+# }
 
-// Define the home directory variable
-variable "home_directory" {
-  description = "The user's home directory"
-  default = "~/.ssh"
-}
+# // Define the home directory variable
+# variable "home_directory" {
+#   description = "The user's home directory"
+#   default = "~/.ssh"
+# }
 
-// Create Key Pair for Connecting EC2 via SSH
-resource "aws_key_pair" "key_pair" {
-  key_name   = var.key_name
-  public_key = tls_private_key.rsa_4096.public_key_openssh
-   tags = {
-    Name = "${var.environment}-key_pair"
-  }
-}
+# // Create Key Pair for Connecting EC2 via SSH
+# resource "aws_key_pair" "key_pair" {
+#   key_name   = var.key_name
+#   public_key = tls_private_key.rsa_4096.public_key_openssh
+#    tags = {
+#     Name = "${var.environment}-key_pair"
+#   }
+# }
 
-// Save PEM file locally
-resource "local_file" "private_key" {
-  content  = tls_private_key.rsa_4096.private_key_pem
-  # filename = var.key_name #save in root dir of this project
-  # filename = "${pathexpand("~/.ssh/")}${var.key_name}" #${pathexpand("~/.ssh/")} is used to get the path to the user's home directory, and then ${var.key_name} is appended to specify the full path to the key file in the .ssh directory. 
+# // Save PEM file locally
+# resource "local_file" "private_key" {
+#   content  = tls_private_key.rsa_4096.private_key_pem
+#   # filename = var.key_name #save in root dir of this project
+#   # filename = "${pathexpand("~/.ssh/")}${var.key_name}" #${pathexpand("~/.ssh/")} is used to get the path to the user's home directory, and then ${var.key_name} is appended to specify the full path to the key file in the .ssh directory. 
 
- filename = "${pathexpand(var.home_directory)}/${var.key_name}"
-  provisioner "local-exec" { # The local-exec provisioner is also updated to use the same path when running the chmod command.
-    # command = "chmod 400 ${var.key_name}" 
-   command = "chmod 400 ${pathexpand(var.home_directory)}/${var.key_name}"
-  }
-}
+#  filename = "${pathexpand(var.home_directory)}/${var.key_name}"
+#   provisioner "local-exec" { # The local-exec provisioner is also updated to use the same path when running the chmod command.
+#     # command = "chmod 400 ${var.key_name}" 
+#    command = "chmod 400 ${pathexpand(var.home_directory)}/${var.key_name}"
+#   }
+# }
 
 /////////////////////////////////////////////////////////////////////
 
@@ -139,7 +139,8 @@ resource "aws_instance" "EKS-Bootstrap-Server" {
   #  instance_type = "t4g.small"
 
   # if we do not specify the vpc subnets info here, the ec2 instance will be situated in the default VPC that came with the account 
-  key_name               = aws_key_pair.key_pair.key_name
+  # key_name               = aws_key_pair.key_pair.key_name
+  key_name = "Prince-Affy-Main-SSHKEY"
   vpc_security_group_ids = [aws_security_group.ec2-security-group.id]
 
 

@@ -6,25 +6,25 @@
 # }
 
 
-output "user" {
-  value = "ubuntu"
-}
+# output "user" {
+#   value = "ubuntu"
+# }
 
-output "IP_Address" {
-  value = aws_instance.EKS-Bootstrap-Server.public_ip
-}
+# output "IP_Address" {
+#   value = aws_instance.EKS-Bootstrap-Server.public_ip
+# }
 
-output "ssh_key" {
-  value = "${pathexpand(var.home_directory)}/${var.key_name}"
-}
+# output "ssh_key" {
+#   value = "${pathexpand(var.home_directory)}/${var.key_name}"
+# }
 
-output "connection_to_server" {
-  value = " ssh -i ${pathexpand(var.home_directory)}/${var.key_name} ubuntu@${aws_instance.EKS-Bootstrap-Server.public_ip}"
-}
+# output "connection_to_server" {
+#   value = " ssh -i ${pathexpand(var.home_directory)}/${var.key_name} ubuntu@${aws_instance.EKS-Bootstrap-Server.public_ip}"
+# }
 
-output "OUTPUTS" {
-  value = "---------------------------------\nOUTPUTS\n-----------------------------"
-}
+# output "OUTPUTS" {
+#   value = "---------------------------------\nOUTPUTS\n-----------------------------"
+# }
 
 # output "jenkins_slave1_public_ip" {
 #   value = aws_instance.Jenkin-Slave1-EC2-Instance.public_ip
@@ -33,3 +33,12 @@ output "OUTPUTS" {
 # output "ansible_instance_public_ip" {
 #   value = aws_instance.Ansible-EC2-Instance.public_ip
 # }
+
+output "connection_to_server" {
+  value = "ssh -i ~/.ssh/Prince-Affy-Main-SSHKEY.pem ubuntu@${aws_instance.EKS-Bootstrap-Server.public_ip}"
+  # value = " ssh -i ${pathexpand(var.home_directory)}/${var.key_name} ubuntu@${aws_instance.Monitoring_Prometheus_target_Server.public_ip}"
+}
+
+output "OUTPUTS" {
+  value = "---------------------------------\nOUTPUTS\n-----------------------------"
+}

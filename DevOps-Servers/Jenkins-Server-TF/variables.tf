@@ -4,5 +4,5 @@ variable "rt-name" {default ="Jenkins-route-table"}
 variable "subnet-name" {default ="Jenkins-subnet"}
 variable "sg-name" {default ="Jenkins-sg"}
 variable "instance-name" {default ="Jenkins-server"}
-variable "key-name" {default ="Prince-Affy-Main-SSHKEY"}
+variable "key-name" {default ="main-ssh-key"}
 variable "iam-role" {default ="Jenkins-iam-role"}

@@ -75,17 +75,17 @@ resource "aws_key_pair" "myapp-key-pair" {
   key_name   = "myapp-key-pair"
   public_key = file(var.public_key_location)
   
- # Add a provisioner to set the correct permissions on the private key file
-  provisioner "file" {
-    source      = var.public_key_location
-    destination = "/home/ubuntu/.ssh/my_ssh_key_for_my_main_linux_ec2"
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.public_key_location)
-    }
-    inline = ["chmod 600 /home/ubuntu/.ssh/my_ssh_key_for_my_main_linux_ec2"]
-  }
+ ## Add a provisioner to set the correct permissions on the private key file
+  # provisioner "file" {
+  #   source      = var.public_key_location
+  #   destination = "/home/ubuntu/.ssh/my_ssh_key_for_my_main_linux_ec2"
+  #   connection {
+  #     type        = "ssh"
+  #     user        = "ubuntu"
+  #     private_key = file(var.public_key_location)
+  #   }
+  #   inline = ["chmod 600 /home/ubuntu/.ssh/my_ssh_key_for_my_main_linux_ec2"]
+  # }
 
 
   tags = {
