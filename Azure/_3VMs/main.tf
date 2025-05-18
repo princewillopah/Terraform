@@ -18,7 +18,7 @@ locals {
       name           = "Subnet_B"
       address_prefix = "10.0.2.0/24"
     }
-  }
+  } 
 }
 
 resource "azurerm_resource_group" "rg" {

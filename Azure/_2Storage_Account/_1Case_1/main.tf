@@ -1,7 +1,7 @@
 
 
 
-
+# imported RG
 data "azurerm_resource_group" "my-RG" {
   name = "Prince-RG"
 }
