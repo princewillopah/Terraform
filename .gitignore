@@ -34,6 +34,9 @@ coverage/
 # Ignore any terraform configuration files
 .terraform/
 
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 # Exclude the .terraform directory in any subdirectory
 **/.terraform/
 
@@ -41,8 +44,6 @@ coverage/
 /.terraform/
 
 # Exclude Terraform state files and directories
-.terraform/
-*.tfstate
 *.tfstate.*
 terraform.tfvars
 
@@ -55,7 +56,7 @@ terraform.tfvars
 **/terraform.tfstate
 **/terraform.tfstate.*
 **/terraform.tfvars
-
+*.tfvars
 # Exclude binary files downloaded during `terraform init`
 *.bin
 

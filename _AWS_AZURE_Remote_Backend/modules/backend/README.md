@@ -1,0 +1,1 @@
+Creates an S3 bucket configured for Terraform remote state and a DynamoDB table for state locking. Includes versioning, default SSE, public access block, and optional bucket policies to enforce TLS and SSE headers.
