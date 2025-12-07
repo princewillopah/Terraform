@@ -56,7 +56,7 @@ resource "aws_security_group" "ec2-security-group" {
   
   # description = "Allow TLS inbound traffic"
 #   vpc_id      = aws_vpc.myapp-vpc.id    #so the servers in the vpc can be associated weith the secuerity group
-
+  vpc_id      = ""
 		#so ingress block handles the incoming requests/traffics to access the resources in the VPC such as accessing the ec2 instance from your CLI 0r accessing the nginx on port 8080 on port 22. in these cases we are sending traffic/requests to the VPC to access the EC2 instance or the nginx in it
   #rules to expose port 22 for aceessing ec2 instance ourside
   ingress {
@@ -132,7 +132,7 @@ resource "aws_security_group" "ec2-security-group" {
 
 
 resource "aws_instance" "Linux-Server" {
-  ami           = "ami-0914547665e6a707c" # for eu-north-1
+  ami           = "ami-0ecb62995f68bb549" # for eu-north-1
   instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
@@ -148,7 +148,7 @@ associate_public_ip_address    = true # to make sure public ip is display
 
  root_block_device {
     volume_size = 30
-    volume_type = "gp2"
+    volume_type = "gp3"
   }
 
  tags = {
