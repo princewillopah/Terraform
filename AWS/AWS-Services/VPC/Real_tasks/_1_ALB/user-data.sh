@@ -13,7 +13,7 @@ rm -rf /var/www/html/*
 git clone https://github.com/princewillopah/html-website-sample.git /tmp/html-website-sample
 
 # Move website files
-cp -r /tmp/html-website-sample/* /var/www/html/
+cp -r /tmp/html-website-sample/* /var/www/html/ || true
 
 # Fix permissions
 chown -R www-data:www-data /var/www/html
@@ -22,6 +22,7 @@ chown -R www-data:www-data /var/www/html
 rm -rf /tmp/html-website-sample
 
 # Enable + restart Nginx
-systemctl enable nginx
+systemctl enable --now nginx
 systemctl restart nginx
 
+# Optional: install CloudWatch agent or SSM agent as needed

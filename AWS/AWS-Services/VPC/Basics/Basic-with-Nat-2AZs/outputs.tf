@@ -1,6 +1,6 @@
-output "vpc" {
-  value = aws_vpc.three_tier
-}
+# output "vpc" {
+#   value = aws_vpc.three_tier
+# }
 
 
 output "vpc_id" {

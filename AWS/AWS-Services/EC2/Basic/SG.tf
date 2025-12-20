@@ -1,7 +1,7 @@
 resource "aws_security_group" "Jump-server-security-group" {
   name   = "Jump-server-security-group"
 
-  vpc_id      = var.   
+  # vpc_id      = var.   
 
 
   ingress {
