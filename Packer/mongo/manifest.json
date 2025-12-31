@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "name": "mongodb_ssm",
+      "builder_type": "amazon-ebs",
+      "build_time": 1766930313,
+      "files": null,
+      "artifact_id": "us-east-1:ami-05797cb3b011b43bd",
+      "packer_run_uuid": "edbad170-d4be-f312-3ace-5ee1dec01dd0",
+      "custom_data": null
+    }
+  ],
+  "last_run_uuid": "edbad170-d4be-f312-3ace-5ee1dec01dd0"
+}
