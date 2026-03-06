@@ -14,7 +14,7 @@
 
 variable "avail_zone" {
  description = "Availability Zones"
- default     = "eu-north-1"
+ default     = "us-east-1a"
 }
 
 variable "environment" {

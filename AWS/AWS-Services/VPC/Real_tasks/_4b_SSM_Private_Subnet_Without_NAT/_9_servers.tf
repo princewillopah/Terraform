@@ -20,7 +20,7 @@
 
 resource "aws_instance" "data_tier" {
 
-  ami           = "ami-090602daf4d0a60b8"  # note that this AMI needs to have SSM agent pre-installed
+  ami           = "ami-063b41f7b226524e4"  # note that this AMI needs to have SSM agent pre-installed
   instance_type = "t3.micro"
   subnet_id     = aws_subnet.private_data_1a.id
 

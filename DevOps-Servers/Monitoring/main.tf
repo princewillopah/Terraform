@@ -107,8 +107,8 @@ resource "aws_security_group" "ec2-security-group" {
 
 
 resource "aws_instance" "Monitoring-Server" {
-  ami           = "ami-0014ce3e52359afbd" # for eu-north-1
-  instance_type = "t3.large"
+  ami           = "ami-07194679cfbf10eea" # for us-east-1
+  instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1
   #  instance_type = "t4g.small"

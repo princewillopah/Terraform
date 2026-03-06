@@ -132,7 +132,7 @@ resource "aws_security_group" "ec2-security-group" {
 
 
 resource "aws_instance" "Linux-Server" {
-  ami           = "ami-0ecb62995f68bb549" # for eu-north-1
+  ami           = "ami-0ecb62995f68bb549" #
   instance_type = "t3.micro"
 
   #  ami          =  ami-059a8f02a1a1fd2b9 # for eu-north-1

@@ -1,6 +1,6 @@
 
 resource "aws_instance" "Jump_Server" {
-  ami           = "ami-0ecb62995f68bb549" # for us-east-1
+  ami           = "ami-0b6c6ebed2801a5cb" # for us-east-1
   instance_type = "t3.micro"
 
 
